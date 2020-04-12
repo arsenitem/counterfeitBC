@@ -1,84 +1,78 @@
-import { Dispatch } from "react"
+import {Action, ActionCreator, Dispatch} from 'redux';
 import {IState} from '../index'
 import {UserActions, UserActionsTypes} from './types'
+import { IUser, IUserLogin, IUserSignUp } from "../../models/user"
 
 
 
-export function setAccessToken(token: string): UserActionsTypes {
+export function setAccessToken(token: string | null): UserActionsTypes {
     return {
         type: UserActions.SetToken,
         token
     }
 }
 
-
-
-export function signIn(): (dispatch: Dispatch<IState>) => Promise<void> {
-    return async (dispatch: Dispatch<IState>) => {
-      dispatch(signInInProgress());
-  
-      try {
-        
-  
-        dispatch(signInSuccess());
-      } catch (err) {
-        dispatch(signInFail(err));
-      }
-    };
-  }
-  
-export function signOut(): (dispatch: Dispatch<IState>) => Promise<void> {
-return async (dispatch: Dispatch<IState>) => {
-    dispatch(signOutInProgress());
-
-    try {
-
-
-    dispatch(signOutSuccess());
-    } catch (err) {
-    dispatch(signOutFail(err));
+export function setUserError(error: string): UserActionsTypes{
+    return {
+        type: UserActions.SetUserError,
+        error
     }
-};
+}
+export function setUserLoading(isLoading: boolean): UserActionsTypes{
+    return {
+        type: UserActions.SetUserLoading,
+        isLoadingUser: isLoading
+    }
+}
+export function setUserData(userData: IUser): UserActionsTypes {
+    return {
+        type: UserActions.SetUserData,
+        user: userData
+    }
 }
 
-  function signInInProgress(): ISignInInProgressAction {
-    return {
-      type: keys.SIGNIN_INPROGRESS
+
+export function loginUser(userData: IUserLogin, history: any) {
+    return async (dispatch: any) => {
+        try {
+            dispatch(setUserLoading(true))
+            // fetch user
+            // dispatch(setUserData(user))
+        } catch (e) {
+            
+            dispatch(setUserError(''))
+        } finally {
+            dispatch(setUserLoading(false))
+        }
+    }
+} 
+export function signUpUser(userDate: IUserSignUp, history: any): any {
+    return async (dispatch: any) => {
+        try{
+            dispatch(setUserLoading(true))
+        } catch (e) {
+            dispatch(setUserError(''))
+        } finally {
+            dispatch(setUserLoading(false))
+        }
+    }
+}
+
+export function logoutUser() {
+    return (dispatch: any) => {
+        localStorage.removeItem('accessToken');
+        dispatch(setAccessToken(null)) 
     };
-  }
-  
-  function signInSuccess(): ISignInSuccessAction {
-    return {
-      type: keys.SIGNIN_SUCCESS
-    };
-  }
-  
-  function signInFail(error: Error): ISignInFailAction {
-    return {
-      payload: {
-        error
-      },
-      type: keys.SIGNIN_FAIL
-    };
-  }
-  
-  function signOutInProgress(): ISignOutInProgressAction {
-    return {
-      type: keys.SIGNOUT_INPROGRESS
-    };
-  }
-  
-  function signOutSuccess(): ISignOutSuccessAction {
-    return {
-      type: keys.SIGNOUT_SUCCESS
-    };
-  }
-  
-  function signOutFail(error: Error): ISignOutFailAction {
-    return {
-      payload: {
-        error
-      },
-      type: keys.SIGNOUT_FAIL
-    };
-  }
+} 
+
+export function getUserData(): any {
+    return async (dispatch: any) => {
+        try {
+            dispatch(setUserLoading(true))
+        } catch(e) {
+            dispatch(setUserError(''))
+        } finally {
+            dispatch(setUserLoading(false))
+        }
+    }
+}
