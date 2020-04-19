@@ -1,0 +1,10 @@
+.form-container{
+    width: 100%;
+    max-width: 400px;
+
+    &__header{
+        font-family: 'Roboto';
+        font-weight: normal;
+        color: rgb(51, 51, 51);
+    }
+}

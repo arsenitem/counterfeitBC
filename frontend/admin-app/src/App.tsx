@@ -13,7 +13,6 @@ const TemplatesPage = React.lazy(() => import('./pages/TemplatesPage/TemplatesPa
 function App() {
   return (
     <>
-    <div>hhkjhkjhk</div>
     <Switch>
       <Route exact path="/login" component={LoginPage} />
       <Route exact path="/signup" component={SignUpPage} />
