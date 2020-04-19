@@ -9,6 +9,7 @@ import SignUpPage from './pages/SignUpPage/SignUpPage'
 const ProductsPage = React.lazy(() => import('./pages/ProductsPage/ProductsPage'));
 const ProfilePage = React.lazy(() => import('./pages/ProfilePage/ProfilePage'));
 const TemplatesPage = React.lazy(() => import('./pages/TemplatesPage/TemplatesPage'));
+const TeamPage = React.lazy(() => import('./pages/TeamPage/TeamPage'));
 
 function App() {
   return (
@@ -19,9 +20,10 @@ function App() {
 
       <MainLayout>
         <React.Suspense fallback={<PageSpinner />}>
-          <Route exact path="/profile" component={ProfilePage} />
+          <Route exact path="/company" component={ProfilePage} />
           <Route exact path="/templates" component={TemplatesPage} />
           <Route exact path="/products" component={ProductsPage} />
+          <Route exact path="/team" component={TeamPage} />
         </React.Suspense>
       </MainLayout>
       

@@ -1,6 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles, useTheme, Theme } from '@material-ui/core/styles';
+import {Link} from 'react-router-dom'
+import { makeStyles, useTheme,createStyles, Theme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -15,109 +16,68 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import layoutStyles from './MainLayout.module.scss'
+
+import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
+import ListAltOutlinedIcon from '@material-ui/icons/ListAltOutlined';
+import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
+import BusinessOutlinedIcon from '@material-ui/icons/BusinessOutlined';
+import { Avatar } from '@material-ui/core';
+
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    display: 'flex',
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginRight: 36,
-  },
-  hide: {
-    display: 'none',
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-  },
-  drawerOpen: {
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerClose: {
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: 'hidden',
-    width: theme.spacing(7) + 1,
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9) + 1,
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      display: 'flex',
     },
-  },
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-  },
-}));
+    appBar: {
+      zIndex: theme.zIndex.drawer + 1,
+    },
+    drawer: {
+      width: drawerWidth,
+      flexShrink: 0,
+      whiteSpace: 'nowrap',
+    },
+    drawerOpen: {
+      width: drawerWidth,
+      transition: theme.transitions.create('width', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+    },
+    drawerClose: {
+      transition: theme.transitions.create('width', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      overflowX: 'hidden',
+      width: theme.spacing(7),
+    },
+    drawerPaper: {
+      width: drawerWidth,
+    },
+    content: {
+      flexGrow: 1,
+      padding: theme.spacing(3),
+    },
+  }),
+);
 
 export default function MainLayout(props: any) {
   const classes = useStyles();
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  const [open, setOpen] = React.useState(true);
 
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
-      >
+      <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, {
-              [classes.hide]: open,
-            })}
-          >
-            <MenuIcon />
-          </IconButton>
           <Typography variant="h6" noWrap>
-            Mini variant drawer
+            Контрафактор
           </Typography>
         </Toolbar>
       </AppBar>
@@ -134,32 +94,59 @@ export default function MainLayout(props: any) {
           }),
         }}
       >
-        <div className={classes.toolbar}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
+        <Toolbar />
+        <div className={layoutStyles['drawer-container']}>
+          <div className={layoutStyles['drawer-container__company']}>
+            <Avatar 
+              alt="Remy Sharp" 
+              src="https://lh3.googleusercontent.com/proxy/nTr3sAsGX4hctHVzEYzDuEM-Pj545y84BpcQszxMAZ4CWTSkOdNRCjdQql0b3tZEpH_KLWnl3uzsvgTs7IB53ZIOCCtcTkyq" 
+              className={ clsx(
+                layoutStyles['drawer-container__company-logo'],
+                {[layoutStyles['drawer-container__company-logo--small'] ]: !open}
+                )} 
+            />
+            {open && (
+              <h3 className={layoutStyles['drawer-container__company-name']}>ООО Тушёная тушёнка</h3>
+            )}
+          </div>
+          <Divider/>
+          <div className={layoutStyles['drawer-container__navigation']}>
+            <List>
+              <ListItem button component={Link} to="/company">
+                <ListItemIcon><BusinessOutlinedIcon/></ListItemIcon>
+                <ListItemText primary={'Компания'} />
+              </ListItem>
+              <ListItem button component={Link} to="/team">
+                <ListItemIcon><PeopleOutlineIcon/></ListItemIcon>
+                <ListItemText primary={'Команда'} />
+              </ListItem>
+              <ListItem button component={Link} to="/products">
+                <ListItemIcon><ListAltOutlinedIcon /></ListItemIcon>
+                <ListItemText primary={'Товары'} />
+              </ListItem>
+              <ListItem button component={Link} to="/templates">
+                <ListItemIcon><FileCopyOutlinedIcon /></ListItemIcon>
+                <ListItemText primary={'Шаблоны'} />
+              </ListItem>
+            </List>
+          </div>
+          <div className={layoutStyles['drawer-container__footer']}>
+            <Divider/>
+            <List>
+              <ListItem button onClick={() => setOpen(!open)}>
+                <ListItemIcon>{!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}</ListItemIcon>
+                <ListItemText primary={'Свернуть'} />
+              </ListItem>
+              <ListItem button component={Link} to="/login">
+                <ListItemIcon><ExitToAppIcon/></ListItemIcon>
+                <ListItemText primary={'Выйти'} />
+              </ListItem>
+            </List>
+          </div>
         </div>
-        <Divider />
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
       </Drawer>
       <main className={classes.content}>
-        <div className={classes.toolbar} />
+        <Toolbar />
         {props.children}
       </main>
     </div>

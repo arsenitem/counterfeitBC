@@ -1,11 +1,12 @@
-import PropTypes from 'prop-types';
+
 import React from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import styles from './PageSpinner.module.scss'
 
 const PageSpinner = () => {
   return (
-    <div>
-      <CircularProgress />
+    <div className={styles['spinner-container']}>
+      <CircularProgress size={50}/>
     </div>
   );
 };

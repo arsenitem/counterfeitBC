@@ -1,0 +1,35 @@
+.drawer-container{
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    &__company{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 8px 0;
+    }
+    &__company-logo{
+        height: 120px !important;
+        width: 120px !important;
+
+        &--small{
+            height: 50px !important;
+            width: 50px !important;
+        }
+    }
+    &__company-name{
+        margin-top: 4px;
+        font-size: 14px;
+        color: rgb(65, 64, 64);
+    }
+    &__navigation{
+        margin-top: 16px;
+    }
+    &__footer{
+        margin-top: auto;
+        padding-top: 24px;
+    }
+}
