@@ -25,7 +25,8 @@ function SignUpPage(props: any) {
                 </Grid>
                 <Grid container spacing={4} alignItems="flex-end">
                     <Grid item>
-                        <Face />
+                        <div className={formStyles['icon']}> <Face/></div>
+                        
                     </Grid>
                     <Grid item md={true} sm={true} xs={true}>
                         <TextField id="username" label="Имя" type="text" fullWidth autoFocus required />
@@ -33,7 +34,7 @@ function SignUpPage(props: any) {
                 </Grid>
                 <Grid container spacing={4} alignItems="flex-end">
                     <Grid item>
-                        <Face />
+                        <div className={formStyles['icon']}> <Face/></div>
                     </Grid>
                     <Grid item md={true} sm={true} xs={true}>
                         <TextField id="username" label="Фамилия" type="text" fullWidth autoFocus required />
@@ -49,7 +50,7 @@ function SignUpPage(props: any) {
                 </Grid>
                 <Grid container spacing={4} alignItems="flex-end">
                     <Grid item>
-                        <Fingerprint />
+                        <div className={formStyles['icon']}> <Fingerprint/></div>
                     </Grid>
                     <Grid item md={true} sm={true} xs={true}>
                         <TextField id="username" label="Повторите пароль" type="password" fullWidth required />
