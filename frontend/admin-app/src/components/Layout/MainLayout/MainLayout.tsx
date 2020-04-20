@@ -76,9 +76,12 @@ export default function MainLayout(props: any) {
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <Typography variant="h6" noWrap>
-            Контрафактор
-          </Typography>
+          <div className={layoutStyles['toolbar-container']}>
+            <Typography variant="h6" noWrap>
+              Контрафактор
+            </Typography>
+            <Avatar>H</Avatar>
+          </div>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -99,7 +102,7 @@ export default function MainLayout(props: any) {
           <div className={layoutStyles['drawer-container__company']}>
             <Avatar 
               alt="Remy Sharp" 
-              src="https://lh3.googleusercontent.com/proxy/nTr3sAsGX4hctHVzEYzDuEM-Pj545y84BpcQszxMAZ4CWTSkOdNRCjdQql0b3tZEpH_KLWnl3uzsvgTs7IB53ZIOCCtcTkyq" 
+              src="https://source.unsplash.com/random/400x400" 
               className={ clsx(
                 layoutStyles['drawer-container__company-logo'],
                 {[layoutStyles['drawer-container__company-logo--small'] ]: !open}
@@ -147,7 +150,9 @@ export default function MainLayout(props: any) {
       </Drawer>
       <main className={classes.content}>
         <Toolbar />
-        {props.children}
+        <div className={layoutStyles['content-container']}>
+          {props.children}
+        </div>
       </main>
     </div>
   );

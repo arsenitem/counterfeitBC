@@ -33,3 +33,15 @@
         padding-top: 24px;
     }
 }
+
+.toolbar-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.content-container{
+    width: 100%;
+    margin: 0 auto;
+    max-width: 1000px;
+}
