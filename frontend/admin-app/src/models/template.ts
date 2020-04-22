@@ -1,5 +1,6 @@
 export interface ITemplate{
     templateId: string | null;
+    productType: string;
     productName: string;
     description: string;
     imageUrl: string;
