@@ -4,7 +4,8 @@ import { ITemplate } from "../../models/template";
 export const templatesInitialState: ITemplatesState = {
     templates: [],
     isLoading: false,
-    newTemplate: null
+    newTemplate: null,
+    isUpdating: false
 }
 
 export function templatesReducer(
@@ -81,6 +82,11 @@ export function templatesReducer(
             return {
                 ...state,
                 newTemplate: action.template
+            }
+        case TemplatesActions.SetTemplateUpdating:
+            return {
+                ...state,
+                isUpdating: action.isUpdating
             }
         default:
             return state

@@ -21,16 +21,19 @@ export class TemplatesService{
 
     }
 
-    public async createTemplate(template: ITemplate): Promise<string> {
+    public async createTemplate(template: ITemplate): Promise<ITemplate> {
         await new Promise(res => setTimeout(res, 1000))
-        return Math.random() * 100 + 'template'
+        const templateId = Math.random() * 100 + 'template'
+        template.templateId = templateId
+        return template
 
-        const templatesRes = await callApi(endpoints.templates, this.accessToken, 'POST')
-        if (!templatesRes.ok) {
-            throw new Error('')
-        }
-        const templateId = await templatesRes.json()
-        return templateId
+        // const templatesRes = await callApi(endpoints.templates, this.accessToken, 'POST')
+        // if (!templatesRes.ok) {
+        //     throw new Error('')
+        // }
+        // const templateId = await templatesRes.json()
+        // template.templateId = templateId
+        // return template
     }
 
     public async deleteTemplate(templateId: string): Promise<void> {
@@ -61,33 +64,33 @@ export class TemplatesService{
 
 
     
-    public async archiveTemplate(templateId: string, isArchived: boolean): Promise<void> {
-        await new Promise(res => setTimeout(res, 1000))
-        return 
+    // public async archiveTemplate(templateId: string, isArchived: boolean): Promise<void> {
+    //     await new Promise(res => setTimeout(res, 1000))
+    //     return 
 
-        const templatesRes = await callApi(endpoints.templates, this.accessToken)
-        if (!templatesRes.ok) {
-            throw new Error('')
-        }
-    }
+    //     const templatesRes = await callApi(endpoints.templates, this.accessToken)
+    //     if (!templatesRes.ok) {
+    //         throw new Error('')
+    //     }
+    // }
 
-    public async setTemplateVisibility(templateId: string, isVisible: boolean): Promise<void> {
-        await new Promise(res => setTimeout(res, 500))
-        return 
+    // public async setTemplateVisibility(templateId: string, isVisible: boolean): Promise<void> {
+    //     await new Promise(res => setTimeout(res, 500))
+    //     return 
 
-        const templatesRes = await callApi(endpoints.templates, this.accessToken)
-        if (!templatesRes.ok) {
-            throw new Error('')
-        }
-    }
+    //     const templatesRes = await callApi(endpoints.templates, this.accessToken)
+    //     if (!templatesRes.ok) {
+    //         throw new Error('')
+    //     }
+    // }
 
-    public async publishTemplate(templateId: string): Promise<void> {
-        await new Promise(res => setTimeout(res, 500))
-        return 
+    // public async publishTemplate(templateId: string): Promise<void> {
+    //     await new Promise(res => setTimeout(res, 500))
+    //     return 
 
-        const templatesRes = await callApi(endpoints.templates, this.accessToken)
-        if (!templatesRes.ok) {
-            throw new Error('')
-        }
-    }
+    //     const templatesRes = await callApi(endpoints.templates, this.accessToken)
+    //     if (!templatesRes.ok) {
+    //         throw new Error('')
+    //     }
+    // }
 }

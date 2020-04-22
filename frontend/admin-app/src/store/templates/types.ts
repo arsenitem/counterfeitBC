@@ -4,6 +4,7 @@ export interface ITemplatesState{
     templates: ITemplate[];
     newTemplate: ITemplate | null;
     isLoading: boolean;
+    isUpdating: boolean;
 }
 
 export enum TemplatesActions{
@@ -15,7 +16,8 @@ export enum TemplatesActions{
     SetTemplateVisibility = 'SET_TEMPLATE_VISIBILITY',
     ArchiveTemplate = 'ARCHIVE_TEMPLATE',
     PublishTemplate = 'PUBLISH_TEMPLATE',
-    SetLoaderTemplate = 'SET_LOADER_TEMPLATE'
+    SetLoaderTemplate = 'SET_LOADER_TEMPLATE',
+    SetTemplateUpdating = 'SET_TEMPLATE_UPDATING'
 }
 
 interface ISetTemplateAction{
@@ -52,9 +54,13 @@ interface IPublishTemplateAction{
     type: TemplatesActions.PublishTemplate;
     templateId: string;
 }
-interface ISetLoaderTemplate{
+interface ISetLoaderTemplateAction{
     type: TemplatesActions.SetLoaderTemplate;
     isLoading: boolean;
+}
+interface ISetTemplateUpdatingAction{
+    type: TemplatesActions.SetTemplateUpdating,
+    isUpdating: boolean;
 }
 
 export type TemplateActionTypes =
@@ -66,4 +72,5 @@ export type TemplateActionTypes =
     ISetTemplateVisibilityAction |
     IArchiveTemplateAction |
     IPublishTemplateAction |
-    ISetLoaderTemplate;
+    ISetLoaderTemplateAction |
+    ISetTemplateUpdatingAction;
