@@ -7,6 +7,7 @@ interface IPageLayoutProps {
     pageTitle: string;
     backUrl?: string;
     children: ReactNode;
+    headerComponent?: ReactNode;
 }
 
 const PageLayout = (props: IPageLayoutProps) => {
@@ -14,12 +15,17 @@ const PageLayout = (props: IPageLayoutProps) => {
     return (
         <div className={styles['page']}>
             <div className={styles['page__header']}>
-                {props.backUrl && (
-                    <div className={styles['page__back']} onClick={() => history.push(props.backUrl || '')}>
-                        <ArrowBackIcon/>
-                    </div>
-                )}
-                <h1 className={styles['page__title']}>{props.pageTitle}</h1>
+                <div className={styles['page__navigation']}>
+                    {props.backUrl && (
+                        <div className={styles['page__back']} onClick={() => history.push(props.backUrl || '')}>
+                            <ArrowBackIcon/>
+                        </div>
+                    )}
+                    <h1 className={styles['page__title']}>{props.pageTitle}</h1>
+                </div>
+                <div className={styles['page__main-functions']}>
+                    {props?.headerComponent}
+                </div>
             </div>
             <div className={styles['page__content']}>
                 {props.children}

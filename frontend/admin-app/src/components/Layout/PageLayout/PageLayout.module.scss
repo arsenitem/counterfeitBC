@@ -17,6 +17,13 @@
         align-items: center;
         margin-bottom: 16px;
     }
+    &__navigation{
+        display: flex;
+        align-items: center;
+    }
+    &__main-functions{
+        margin-left: auto;
+    }
     &__content{
 
     }

@@ -1,5 +1,7 @@
 import React, {useEffect} from 'react'
 import TemplateCard from '../../components/TemplateCard/Templatecard'
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
 import { connect, ConnectedProps } from 'react-redux'
 import {IState} from '../../store'
 import PageSpinner from '../../components/PageSpinner/PageSpinner'
@@ -37,7 +39,10 @@ const TemplatesPage = (props: Props) => {
         }
     }, [])
     return (
-        <PageLayout pageTitle={'Шаблоны'}>
+        <PageLayout 
+            pageTitle={'Шаблоны'}
+            headerComponent={<Button startIcon={<AddIcon />} variant="outlined" color="primary">Создать шаблон</Button>}
+        >
             {props.isLoading ? (
                 <PageSpinner/>
             ): (
