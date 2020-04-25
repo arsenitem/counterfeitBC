@@ -34,7 +34,7 @@ const setTemplateVisibility = (templateId: string, isVisible: boolean): Template
     templateId,
     isVisible
 })
-export const setLoaderTemplate = (isLoading: boolean): TemplateActionTypes => ({
+const setLoaderTemplate = (isLoading: boolean): TemplateActionTypes => ({
     type: TemplatesActions.SetLoaderTemplate,
     isLoading
 })
