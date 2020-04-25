@@ -1,0 +1,22 @@
+.page{
+
+    &__back{
+        padding: 4px;
+        cursor: pointer;
+        margin-right: 16px;
+        display: flex;
+        align-items: center;
+    }
+    &__title{
+        font-size: 24px;
+        font-weight: 500;
+    }
+    &__header{
+        display: flex;
+        align-items: center;
+        margin-bottom: 16px;
+    }
+    &__content{
+
+    }
+}
