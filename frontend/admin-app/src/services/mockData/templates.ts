@@ -81,7 +81,7 @@ export const mockTemplates: ITemplate[] = [
             }
         ],
         isArchived: true,
-        isPublished: false,
+        isPublished: true,
         isVisible: false
     },
     {
@@ -99,8 +99,8 @@ export const mockTemplates: ITemplate[] = [
         }],
         specifications: [],
         isArchived: false,
-        isPublished: true,
-        isVisible: true
+        isPublished: false,
+        isVisible: false
     },
     {
         templateId: '5',
