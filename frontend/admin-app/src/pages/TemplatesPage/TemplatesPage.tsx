@@ -9,7 +9,7 @@ import {
     fetchTemplates, 
 } from '../../store/templates/'
 import { ITemplate } from '../../models'
-import styles from './TemplatePage.module.scss'
+import styles from './TemplatesPage.module.scss'
 import cn from 'classnames'
 import  PageLayout from '../../components/Layout/PageLayout/PageLayout'
 const mapState = (state: IState) => ({
