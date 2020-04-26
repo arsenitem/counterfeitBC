@@ -1,0 +1,19 @@
+.template-page{
+    display: flex;
+    flex-direction: row-reverse;
+
+    &__actions{
+        flex-grow: 1;
+        flex-shrink: 0;
+        flex-basis: 200px;
+        margin-left: 16px;
+        background-color: red;
+    }
+    &__template-form{
+        flex: 9999;
+    }
+}
+
+.template-form{
+
+}

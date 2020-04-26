@@ -5,7 +5,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
+import { useHistory } from "react-router-dom";
 
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
@@ -54,9 +54,10 @@ type ITemplateCardProps = PropsFromRedux & {
 
 const TemplateCard: FunctionComponent<ITemplateCardProps> = (props: ITemplateCardProps): JSX.Element => {
     const [modalConfig, setModalConfig] = React.useState<ITemplateCardModalConfig | null>(null);
+    const history = useHistory();
 
     const onCardClick = () => {
-        console.log('card clicked')
+        history.push(`/templates/templateid`)
     }
 
     const setVisibility = () => {
