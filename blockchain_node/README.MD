@@ -5,12 +5,12 @@
 3. Установить protobuf  
 Для Windows(через PowerShell):
 ```
-* Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-* choco install -y protoc
+Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+choco install -y protoc
 ```
 Для Linux:
 ```
-* sudo apt install protobuf-compiler
+sudo apt install protobuf-compiler
 ```
 4. Устнановить LLVM https://releases.llvm.org/download.html#10.0.0
 5. Собрать и протестировать exonum
