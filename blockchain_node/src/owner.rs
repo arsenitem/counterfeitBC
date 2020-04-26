@@ -1,16 +1,13 @@
-use exonum::crypto::{Hash, PublicKey};
+use exonum::{crypto::PublicKey};
+use exonum_proto::ProtobufConvert;
 
 use super::proto;
 
-/// Client information stored in the database.
 #[derive(Clone, Debug, ProtobufConvert)]
-#[exonum(pb = "proto::Owner", serde_pb_convert)]
+#[protobuf_convert(source = "proto::Owner", serde_pb_convert)]
 pub struct Owner {
-    /// Public key of the manufacturer
     pub owner_public_key: PublicKey,        
-    /// Name of the manufacturer.
     pub owner_name: String,      
-    /// Information about the manufacturer
     pub owner_info: String, 
 }
 

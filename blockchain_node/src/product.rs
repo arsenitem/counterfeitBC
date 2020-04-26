@@ -1,10 +1,11 @@
-use exonum::crypto::{Hash, PublicKey};
+use exonum::{crypto::PublicKey};
+use exonum_proto::ProtobufConvert;
 
 use super::proto;
 
 /// Product information stored in the database.
 #[derive(Clone, Debug, ProtobufConvert)]
-#[exonum(pb = "proto::Product", serde_pb_convert)]
+#[protobuf_convert(source = "proto::Product", serde_pb_convert)]
 pub struct Product {
     /// Public key of the product
     pub product_public_key: PublicKey,

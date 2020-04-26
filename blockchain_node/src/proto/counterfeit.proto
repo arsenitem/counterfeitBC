@@ -3,12 +3,30 @@ package counterfeit;
 // library.
 // System user
 import "exonum/crypto/types.proto";
-message User {
-    // `PublicKey`
-    exonum.crypto.Hash pk = 1;
-    // Timestamp
-    string name = 2;
+
+message Manufacturer {
+    exonum.crypto.PublicKey manufacturer_public_key = 1;
+    string manufacturer_name = 2;
+    string manufacturer_info = 3;
 }
-message CreateUser {
-    string name = 1;
+message Owner {
+    exonum.crypto.PublicKey owner_public_key = 1;
+    string owner_name = 2;
+    string owner_info = 3;
+}
+message Product {
+    exonum.crypto.PublicKey product_public_key = 1;
+    exonum.crypto.PublicKey manufacturer_public_key = 2;
+    /// Public key of the owner
+    exonum.crypto.PublicKey owner_public_key = 3;
+    /// Name of the product.
+    string product_name = 4;
+    /// Coordinates of the last scan    
+    string last_scan_coord = 5;  
+    /// Information about the product
+    string product_info = 6;
+    /// Id of the nf chip
+    uint64 product_nfc = 7;
+    /// Date of production
+    string production_date = 8;
 }
