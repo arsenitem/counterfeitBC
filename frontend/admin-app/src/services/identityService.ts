@@ -7,9 +7,8 @@ export class IdentityService {
     public async loginUser(userData: IUserLogin): Promise<{accessToken: string, user: IUser}> {
         await new Promise(res => setTimeout(res, 1000))
 
-        // call "identity/login" route and POST user login data
         return {
-            accessToken: '',
+            accessToken: 'token',
             user: {
                 email: 'meatymail@gmail.com',
                 name: 'Бык',
@@ -23,7 +22,7 @@ export class IdentityService {
 
         // call "identity/signup" route and POST user signup data
         return {
-            accessToken: '',
+            accessToken: 'token',
             user: {
                 email: 'meatymail@gmail.com',
                 name: 'Бык',

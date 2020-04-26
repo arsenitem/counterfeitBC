@@ -1,14 +1,38 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {connect, ConnectedProps} from 'react-redux';
 import {Link} from 'react-router-dom'
-import { Paper, withStyles, Grid, TextField, Button, FormControlLabel, Checkbox } from '@material-ui/core';
+import { Grid, TextField, Button,} from '@material-ui/core';
 import { Face, Fingerprint } from '@material-ui/icons'
 import EmptyLayout from '../../components/Layout/EmptyLayout/EmptyLayout'
 import formStyles from './LoginPage.module.scss'
+import {loginUser} from '../../store/user'
+import {IState} from '../../store'
 
+const mapState = (state: IState) => ({
+    isLoading: state.user.isLoadingUser,
+    error: state.user.error
+})
 
+const mapDispatch = {
+    loginUser,
+}
 
-function LoginPage(props: any) {
+const connector = connect(mapState, mapDispatch)
 
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+type ILoginPageProps = PropsFromRedux & {}
+
+function LoginPage(props: ILoginPageProps) {
+    const [email, setEmail] = useState<string>('')
+    const [password, setPassword] = useState<string>('')
+
+    const onSubmit = () => {
+        props.loginUser({
+            email,
+            password
+        })
+    }
     return (
         <EmptyLayout>
             <div className={formStyles['form-container']}>
@@ -35,13 +59,10 @@ function LoginPage(props: any) {
                     <Button color="primary">
                         <Link style={{color: 'inherit', textDecoration: 'none'}} to="/signup">Регистрация</Link>
                     </Button>
-                    <Button style={{ marginLeft: '24px' }} variant="contained" color="primary">
-                        <Link style={{color: 'inherit', textDecoration: 'none'}} to="/products">Войти</Link>
-                    </Button>
                 
-                    {/* <Button style={{ marginLeft: '24px' }} variant="contained" color="primary">
+                    <Button onClick={() => onSubmit()} style={{ marginLeft: '24px' }} variant="contained" color="primary">
                         Войти
-                    </Button> */}
+                    </Button>
                 </Grid>
             </div>
         </EmptyLayout>
@@ -49,4 +70,4 @@ function LoginPage(props: any) {
 }
 
 
-export default LoginPage
+export default connector(LoginPage)

@@ -25,7 +25,7 @@ export function setUserLoading(isLoading: boolean): UserActionsTypes{
         isLoadingUser: isLoading
     }
 }
-export function setUserData(userData: IUser): UserActionsTypes {
+export function setUserData(userData: IUser | null): UserActionsTypes {
     return {
         type: UserActions.SetUserData,
         user: userData
@@ -33,7 +33,7 @@ export function setUserData(userData: IUser): UserActionsTypes {
 }
 
 
-export function loginUser(userData: IUserLogin, history: any) {
+export function loginUser(userData: IUserLogin) {
     return async (dispatch: any) => {
         try {
             dispatch(setUserLoading(true))
@@ -41,6 +41,7 @@ export function loginUser(userData: IUserLogin, history: any) {
             const {accessToken, user} = await identityService.loginUser(userData)
             dispatch(setAccessToken(accessToken))
             dispatch(setUserData(user))
+            localStorage.setItem('accessToken', accessToken)
         } catch (e) {
             // process error from server
             dispatch(setUserError(''))
@@ -49,7 +50,7 @@ export function loginUser(userData: IUserLogin, history: any) {
         }
     }
 } 
-export function signUpUser(userData: IUserSignUp, history: any): any {
+export function signUpUser(userData: IUserSignUp): any {
     return async (dispatch: any) => {
         try{
             dispatch(setUserLoading(true))
@@ -57,6 +58,7 @@ export function signUpUser(userData: IUserSignUp, history: any): any {
             const {accessToken, user} = await identityService.signUpUser(userData)
             dispatch(setAccessToken(accessToken))
             dispatch(setUserData(user))
+            localStorage.setItem('accessToken', accessToken)
         } catch (e) {
             // process error from server
             dispatch(setUserError(''))
@@ -66,15 +68,15 @@ export function signUpUser(userData: IUserSignUp, history: any): any {
     }
 }
 
-export function logoutUser(history: any) {
+export function logoutUser() {
     return (dispatch: any) => {
         localStorage.removeItem('accessToken');
         dispatch(setAccessToken(null)) 
-        // redirect
+        dispatch(setUserData(null))
     };
 } 
 
-export function getUserData(accessToken: string, history: any): any {
+export function getUserData(accessToken: string): any {
     return async (dispatch: any) => {
         try {
             dispatch(setUserLoading(true))
@@ -85,7 +87,7 @@ export function getUserData(accessToken: string, history: any): any {
             // process error from server
             dispatch(setUserError('Не удалось получить данные пользователя. Пожалуйста авторизуйтесь ещё раз.'))
             dispatch(setAccessToken(null)) 
-            // redirect
+            dispatch(setUserData(null))
         } finally {
             dispatch(setUserLoading(false))
         }

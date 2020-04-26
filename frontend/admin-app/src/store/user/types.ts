@@ -21,7 +21,7 @@ interface SetTokenAction {
 }
 interface SetUserDataAction {
     type: UserActions.SetUserData,
-    user: IUser
+    user: IUser | null
 }
 interface SetUserError {
     type: UserActions.SetUserError,

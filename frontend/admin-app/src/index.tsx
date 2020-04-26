@@ -9,7 +9,13 @@ import {setAccessToken, getUserData, logoutUser} from './store/user'
 import * as serviceWorker from './serviceWorker';
 import store from './store'
 
-// const token = localStorage.getItem("accessToken");
+const token = localStorage.getItem("accessToken");
+if(token){
+  store.dispatch(setAccessToken(token));
+  store.dispatch(getUserData(token));
+}
+
+
 // if (token) {
 //   const decodedToken = jwtDecode(token);
 //   if (decodedToken.exp * 1000 < Date.now()) {

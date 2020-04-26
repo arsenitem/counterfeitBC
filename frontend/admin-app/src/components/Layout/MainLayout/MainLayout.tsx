@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 import clsx from 'clsx';
 import {Link} from 'react-router-dom'
-import { makeStyles, useTheme,createStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles,createStyles, Theme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -9,16 +9,14 @@ import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import layoutStyles from './MainLayout.module.scss'
-
-import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
+import {connect, ConnectedProps} from 'react-redux'
+import {logoutUser} from '../../../store/user'
 import ListAltOutlinedIcon from '@material-ui/icons/ListAltOutlined';
 import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -26,6 +24,16 @@ import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import BusinessOutlinedIcon from '@material-ui/icons/BusinessOutlined';
 import { Avatar } from '@material-ui/core';
 
+
+const mapDispatch = {
+  logoutUser
+}
+
+const connector = connect(null, mapDispatch)
+type PropsFromRedux = ConnectedProps<typeof connector>
+type IMainLayoutProps = PropsFromRedux & {
+  children: ReactNode
+}
 
 const drawerWidth = 240;
 
@@ -67,7 +75,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export default function MainLayout(props: any) {
+function MainLayout(props: IMainLayoutProps) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
 
@@ -140,7 +148,7 @@ export default function MainLayout(props: any) {
                 <ListItemIcon>{!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}</ListItemIcon>
                 <ListItemText primary={'Свернуть'} />
               </ListItem>
-              <ListItem button component={Link} to="/login">
+              <ListItem button onClick={() => props.logoutUser()}>
                 <ListItemIcon><ExitToAppIcon/></ListItemIcon>
                 <ListItemText primary={'Выйти'} />
               </ListItem>
@@ -157,3 +165,5 @@ export default function MainLayout(props: any) {
     </div>
   );
 }
+
+export default connector(MainLayout)
