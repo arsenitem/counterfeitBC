@@ -11,11 +11,11 @@ export interface ITemplate{
     isVisible: boolean;
 }
 
-interface ILink{
+export interface ILink{
     linkName: string;
     url: string;
 }
-interface IProductSpecification{
+export interface IProductSpecification{
     parameterName: string;
     value: string | number;
     unit?: string;
