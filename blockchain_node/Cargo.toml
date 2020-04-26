@@ -11,11 +11,16 @@ exonum-derive = "1.0.0"
 exonum-proto = "1.0.0"
 exonum-rust-runtime = "1.0.0"
 
-failure = "0.1.5"
+anyhow = "1.0.26"
 protobuf = "2.8.0"
-serde = "1.0"
-serde_derive = "1.0"
+serde = "1.0.0"
+serde_derive = "1.0.0"
+failure = "0.1.5"
 serde_json = "1.0"
 
 [build-dependencies]
 exonum-build = "1.0.0"
+
+[features]
+default = ["with-serde"]
+with-serde = []
