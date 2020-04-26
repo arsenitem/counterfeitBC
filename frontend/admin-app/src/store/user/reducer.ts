@@ -27,10 +27,10 @@ export function userReducer(
                 ...state,
                 error: action.error
             }
-        case UserActions.SetUserData:
+        case UserActions.SetUserLoading:
             return {
                 ...state,
-                user: action.user
+                isLoadingUser: action.isLoadingUser
             }
         default:
             return state

@@ -89,7 +89,7 @@ function SignUpPage(props: ISignUpPageProps) {
                     <Button color="primary">
                         <Link style={{color: 'inherit', textDecoration: 'none'}} to="/login">Войти</Link>
                     </Button>
-                    <Button style={{ marginLeft: '24px' }} variant="contained" color="primary">
+                    <Button onClick={() => onSubmit()} style={{ marginLeft: '24px' }} variant="contained" color="primary">
                         Зарегистрироваться
                     </Button>
                 </Grid>

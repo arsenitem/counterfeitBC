@@ -32,7 +32,7 @@ type IAppProps = PropsFromRedux & {
 function App(props: IAppProps) {
   return (
     <>
-      {props.accessToken && props.user ? (
+      {!props.accessToken && !props.user ? (
         <Switch>
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/signup" component={SignUpPage} />
