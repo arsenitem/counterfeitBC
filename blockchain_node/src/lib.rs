@@ -21,3 +21,4 @@ extern crate serde_derive; // Required for Protobuf.
 pub mod proto;
 
 pub mod manufacturer;
+pub mod owner;

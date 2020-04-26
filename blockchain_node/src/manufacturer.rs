@@ -15,7 +15,7 @@ pub struct Wallet {
 impl Wallet {
     /// Creates a new wallet.
     pub fn new(
-        manufacturer_public_key: PublicKey,
+        &manufacturer_public_key: &PublicKey,
         manufacturer_name: &str,
         manufacturer_info: &str
     ) -> Self {

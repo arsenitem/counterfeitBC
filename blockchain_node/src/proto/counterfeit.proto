@@ -9,11 +9,11 @@ message Manufacturer {
     string manufacturer_name = 2;
     string manufacturer_info = 3;
 }
-// message Owner {
-//     exonum.crypto.PublicKey owner_public_key = 1;
-//     string owner_name = 2;
-//     string owner_info = 3;
-// }
+message Owner {
+    exonum.crypto.PublicKey owner_public_key = 1;
+    string owner_name = 2;
+    string owner_info = 3;
+}
 // message Product {
 //     exonum.crypto.PublicKey product_public_key = 1;
 //     exonum.crypto.PublicKey manufacturer_public_key = 2;
@@ -31,15 +31,3 @@ message Manufacturer {
 //     string production_date = 8;
 // }
 // Wallet information stored in the database.
-message Wallet {
-    // Address of the wallet's owner.
-    exonum.crypto.Hash owner = 1;
-    // Name of the wallet.
-    string name = 2;
-    // Current balance of the wallet.
-    uint64 balance = 3;
-    // Length of the transactions history.
-    uint64 history_len = 4;
-    // `Hash` of the transactions history.
-    exonum.crypto.Hash history_hash = 5;
-  }
