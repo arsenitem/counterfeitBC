@@ -3,14 +3,11 @@ use exonum_proto::ProtobufConvert;
 
 use super::proto;
 
-/// Wallet information stored in the database.
 #[derive(Clone, Debug, ProtobufConvert)]
 #[protobuf_convert(source = "proto::Owner", serde_pb_convert)]
 pub struct Owner {
     pub owner_public_key: PublicKey,        
-    /// Name of the manufacturer.
     pub owner_name: String,      
-    /// Information about the manufacturer
     pub owner_info: String, 
 }
 

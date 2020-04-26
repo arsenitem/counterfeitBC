@@ -6,14 +6,14 @@ use super::proto;
 /// Wallet information stored in the database.
 #[derive(Clone, Debug, ProtobufConvert)]
 #[protobuf_convert(source = "proto::Manufacturer", serde_pb_convert)]
-pub struct Wallet {
+pub struct Manufacturer {
     manufacturer_public_key: PublicKey,
     manufacturer_name: String,
     manufacturer_info: String,
 }
 
-impl Wallet {
-    /// Creates a new wallet.
+impl Manufacturer {
+    /// Creates a new manufacturer.
     pub fn new(
         &manufacturer_public_key: &PublicKey,
         manufacturer_name: &str,
