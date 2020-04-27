@@ -17,7 +17,6 @@ import UnarchiveOutlinedIcon from '@material-ui/icons/UnarchiveOutlined';
 
 
 import { connect, ConnectedProps } from 'react-redux'
-import {getModalConfig, ITemplateCardModalConfig} from './templateCardModalConfig'
 import {IState} from '../../store'
 import ItemCard from '../ItemCard/ItemCard'
 import { ITemplate } from '../../models/template';
@@ -28,6 +27,8 @@ import {
     startSetVisibilityTemplates
 } from '../../store/templates/'
 import {IAction} from '../ItemCard/ItemCard'
+import TemplateDialog from '../TemplateDialog/TemplateDialog'
+import {getModalConfig, ITemplateModalConfig} from '../TemplateDialog/templateModalConfig'
 
 
 const mapState = (state: IState) => ({
@@ -53,13 +54,13 @@ type ITemplateCardProps = PropsFromRedux & {
 }
 
 const TemplateCard: FunctionComponent<ITemplateCardProps> = (props: ITemplateCardProps): JSX.Element => {
-    const [modalConfig, setModalConfig] = React.useState<ITemplateCardModalConfig | null>(null);
+    const [modalConfig, setModalConfig] = React.useState<ITemplateModalConfig | null>(null);
     const history = useHistory();
 
     const onCardClick = () => {
-        history.push(`/templates/templateid`)
+        history.push(`/templates/${props.template.templateId}`)
     }
-
+    const onCloseModal = () => setModalConfig(null)
     const setVisibility = () => {
         props.startSetVisibilityTemplates(props.template, !props.template.isVisible, props.accessToken || '')
     }
@@ -74,7 +75,7 @@ const TemplateCard: FunctionComponent<ITemplateCardProps> = (props: ITemplateCar
             props.startArchiveTemplates(props.template, true, props.accessToken || '')
             setModalConfig(null)
         }
-        setModalConfig(getModalConfig('ARCHIVE', archiveTemplate))
+        setModalConfig(getModalConfig('ARCHIVE', archiveTemplate, onCloseModal))
     }
     const onCopy = () => {
         // open template page for editing
@@ -84,7 +85,7 @@ const TemplateCard: FunctionComponent<ITemplateCardProps> = (props: ITemplateCar
             props.deleteTemplate(props.template, props.accessToken || '')
             setModalConfig(null)
         }
-        setModalConfig(getModalConfig('DELETE', deleteTemplate))
+        setModalConfig(getModalConfig('DELETE', deleteTemplate, onCloseModal))
     }
 
     const createCardActions = (): IAction[] => {
@@ -143,27 +144,7 @@ const TemplateCard: FunctionComponent<ITemplateCardProps> = (props: ITemplateCar
                 title={props.template.productName}
                 imageUrl={props.template.imageUrl}
             />
-            <Dialog
-                open={!!modalConfig}
-                onClose={() => setModalConfig(null)}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">{modalConfig?.title}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        {modalConfig?.description}
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setModalConfig(null)} color="primary">
-                        {modalConfig?.cancel}
-                    </Button>
-                    <Button onClick={() => modalConfig?.onSubmit()} color="primary" autoFocus>
-                        {modalConfig?.submit}
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <TemplateDialog modalConfig={modalConfig}/>
         </>
     )
 }
