@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react'
 import TemplateCard from '../../components/TemplateCard/Templatecard'
 import Button from '@material-ui/core/Button';
+import { useHistory } from "react-router-dom";
 import AddIcon from '@material-ui/icons/Add';
 import { connect, ConnectedProps } from 'react-redux'
 import {IState} from '../../store'
@@ -32,16 +33,19 @@ type Props = PropsFromRedux & {
 }
 
 const TemplatesPage = (props: Props) => {
-
+    const history = useHistory()
     useEffect(() => {
         if(props.templates.length === 0) {
             props.fetchTemplates(props.accessToken || '')
         }
     }, [])
+    const onCreateNewTemplate = () => {
+        history.push('/templates/new')
+    }
     return (
         <PageLayout 
             pageTitle={'Шаблоны'}
-            headerComponent={<Button startIcon={<AddIcon />} variant="outlined" color="primary">Создать шаблон</Button>}
+            headerComponent={<Button onClick={() => onCreateNewTemplate()} startIcon={<AddIcon />} variant="outlined" color="primary">Создать шаблон</Button>}
         >
             {props.isLoading ? (
                 <PageSpinner/>
