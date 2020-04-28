@@ -21,7 +21,7 @@ export const mockTemplates: ITemplate[] = [
         imageUrl: 'https://source.unsplash.com/random',
         links: [{
             linkName: 'Приз за качество мясца',
-            url: 'https://source.unsplash.com/'
+            url: 'https://www.youtube.com/watch?v=zzqamfaHK-Y'
         },{
             linkName: 'Сертификат качества',
             url: 'https://source.unsplash.com/'
@@ -58,7 +58,7 @@ export const mockTemplates: ITemplate[] = [
         imageUrl: 'https://source.unsplash.com/random',
         links: [{
             linkName: 'Сайт производителя',
-            url: ''
+            url: 'https://www.youtube.com/watch?v=zzqamfaHK-Y'
         }],
         specifications: [
             {
@@ -94,7 +94,7 @@ export const mockTemplates: ITemplate[] = [
             linkName: 'Приз за качество мясца',
             url: 'https://source.unsplash.com/'
         },{
-            linkName: '',
+            linkName: 'Здесь тоже забыл название',
             url: 'https://source.unsplash.com/'
         }],
         specifications: [],
@@ -112,7 +112,7 @@ export const mockTemplates: ITemplate[] = [
             linkName: 'Приз за качество мясца',
             url: 'https://source.unsplash.com/'
         },{
-            linkName: '',
+            linkName: 'Я забыл вставить название',
             url: 'https://source.unsplash.com/'
         }],
         specifications: [
@@ -145,7 +145,7 @@ export const mockTemplates: ITemplate[] = [
             linkName: 'Приз за качество мясца',
             url: 'https://source.unsplash.com/'
         },{
-            linkName: '',
+            linkName: 'Ссылка в никуда',
             url: 'https://source.unsplash.com/'
         }],
         specifications: [],

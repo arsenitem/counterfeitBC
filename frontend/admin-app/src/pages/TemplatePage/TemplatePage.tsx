@@ -28,6 +28,7 @@ import styles from './TemplatePage.module.scss'
 import cn from 'classnames'
 import  PageLayout from '../../components/Layout/PageLayout/PageLayout'
 import TemplateDialog from '../../components/TemplateDialog/TemplateDialog'
+import TemplateView from '../../components/TemplateView/TemplateView'
 import {getModalConfig, ITemplateModalConfig} from '../../components/TemplateDialog/templateModalConfig'
 
 const mapState = (state: IState) => ({
@@ -190,7 +191,7 @@ const TemplatePage = (props: Props) => {
                         
                         </div>
                         <div className={cn(styles['template-page__template-form'], styles['template-form'])}>
-                            ащкьы            
+                            <TemplateView templateData={template}/>            
                         </div>
                     </div>
                 )}
