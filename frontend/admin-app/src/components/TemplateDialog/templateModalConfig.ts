@@ -15,12 +15,12 @@ export function getModalConfig(type: 'DELETE' | 'PUBLISH' | 'ARCHIVE', onSubmit:
     }
     else if (type === 'PUBLISH'){
         publishConfig.onSubmit = onSubmit
-        deleteConfig.onClose = onClose
+        publishConfig.onClose = onClose
         return publishConfig
     } 
     else {
         archiveConfig.onSubmit = onSubmit
-        deleteConfig.onClose = onClose
+        archiveConfig.onClose = onClose
         return archiveConfig
     }
 }
