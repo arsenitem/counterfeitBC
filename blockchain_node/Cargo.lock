@@ -618,6 +618,7 @@ dependencies = [
  "exonum-build",
  "exonum-crypto",
  "exonum-derive",
+ "exonum-merkledb",
  "exonum-proto",
  "exonum-rust-runtime",
  "failure",

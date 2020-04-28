@@ -10,6 +10,7 @@ exonum-crypto = "1.0.0"
 exonum-derive = "1.0.0"
 exonum-proto = "1.0.0"
 exonum-rust-runtime = "1.0.0"
+exonum-merkledb = "1.0.0"
 
 anyhow = "1.0.26"
 protobuf = "2.8.0"
