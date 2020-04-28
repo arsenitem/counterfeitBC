@@ -13,6 +13,7 @@ const ProfilePage = React.lazy(() => import('./pages/ProfilePage/ProfilePage'));
 const TemplatesPage = React.lazy(() => import('./pages/TemplatesPage/TemplatesPage'));
 const TeamPage = React.lazy(() => import('./pages/TeamPage/TeamPage'));
 const TemplatePage = React.lazy(() => import('./pages/TemplatePage/TemplatePage'))
+const TemplateEditPage =React.lazy(() => import('./pages/TemplateEditPage/TemplateEditPage'))
 
 
 
@@ -44,6 +45,7 @@ function App(props: IAppProps) {
             <Switch>
               <Route exact path="/company" component={ProfilePage} />
               <Route exact path="/templates/:templateId" component={TemplatePage} />
+              <Route exact path="/templates/:templateId/edit" component={TemplateEditPage} />
               <Route exact path="/templates" component={TemplatesPage} />
               <Route exact path="/products" component={ProductsPage} />
               <Route exact path="/team" component={TeamPage} />
