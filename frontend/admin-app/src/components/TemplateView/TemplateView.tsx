@@ -28,16 +28,16 @@ const TemplateView = (props: ITemplateViewProps) => {
             
             <h1 className={styles['template-view__header']}>
                 <span className={styles['template-view__image']}>{props.templateData.productType}</span>
-                <Typography variant="h3" component="h2">&#171;{props.templateData.productName}&#187;</Typography>  
+                <Typography variant="h4" component="h4">&#171;{props.templateData.productName}&#187;</Typography>  
             </h1>
             
             <div className={styles['template-view__block']}>
-                <Typography variant="h5" component="h3">Описание</Typography>
+                <Typography variant="h5" component="h5">Описание</Typography>
                 <Typography variant="body1" component="p">{props.templateData.description}</Typography>
             </div>
             {props.templateData.specifications.length > 0 && (
                 <div className={styles['template-view__block']}>
-                    <Typography variant="h5" component="h3">Характеристики</Typography>
+                    <Typography variant="h5" component="h5">Характеристики</Typography>
                     <TableContainer component={Paper}>
                         <Table>
                             <TableBody>
@@ -59,7 +59,7 @@ const TemplateView = (props: ITemplateViewProps) => {
             
             {props.templateData.links.length > 0 && (
                 <div className={styles['template-view__block']}>
-                    <Typography variant="h5" component="h3">Релевантные ссылки</Typography>
+                    <Typography variant="h5" component="h5">Релевантные ссылки</Typography>
                 
                     <div className={styles['links']}>
                         {props.templateData.links.map(l => (
