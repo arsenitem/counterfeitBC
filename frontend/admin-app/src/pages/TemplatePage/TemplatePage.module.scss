@@ -18,6 +18,7 @@
 }
 .actions{
     &__inner-wrapper{
+        align-self: flex-start;
         top: 100px;
         position: sticky;
         display: flex;
