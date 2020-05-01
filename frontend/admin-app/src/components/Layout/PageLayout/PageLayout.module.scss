@@ -11,6 +11,9 @@
         font-size: 24px;
         font-weight: 500;
         margin: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
     &__header{
         display: flex;
@@ -20,11 +23,11 @@
     &__navigation{
         display: flex;
         align-items: center;
+        overflow: hidden;
     }
     &__main-functions{
         margin-left: auto;
     }
     &__content{
-
     }
 }

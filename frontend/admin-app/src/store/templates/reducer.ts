@@ -5,7 +5,8 @@ export const templatesInitialState: ITemplatesState = {
     templates: [],
     isLoading: false,
     newTemplate: null,
-    isUpdating: false
+    isUpdating: false,
+    wasLoaded: false
 }
 
 export function templatesReducer(
@@ -16,7 +17,12 @@ export function templatesReducer(
         case TemplatesActions.SetTemplates:
             return {
                 ...state,
-                templates: action.templates
+                templates: [...state.templates, ...action.templates]
+            }
+        case TemplatesActions.SetLoadedFlag:
+            return {
+                ...state,
+                wasLoaded: true
             }
         case TemplatesActions.AddTemplate:
             return {

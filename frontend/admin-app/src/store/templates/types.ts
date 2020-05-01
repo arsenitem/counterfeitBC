@@ -5,6 +5,7 @@ export interface ITemplatesState{
     newTemplate: ITemplate | null;
     isLoading: boolean;
     isUpdating: boolean;
+    wasLoaded: boolean;
 }
 
 export enum TemplatesActions{
@@ -17,7 +18,8 @@ export enum TemplatesActions{
     ArchiveTemplate = 'ARCHIVE_TEMPLATE',
     PublishTemplate = 'PUBLISH_TEMPLATE',
     SetLoaderTemplate = 'SET_LOADER_TEMPLATE',
-    SetTemplateUpdating = 'SET_TEMPLATE_UPDATING'
+    SetTemplateUpdating = 'SET_TEMPLATE_UPDATING',
+    SetLoadedFlag = 'SET_LOADED_FLAG'
 }
 
 interface ISetTemplateAction{
@@ -44,6 +46,9 @@ interface ISetTemplateVisibilityAction{
     type: TemplatesActions.SetTemplateVisibility;
     templateId: string;
     isVisible: boolean;
+}
+interface ISetLoadedFlag{
+    type: TemplatesActions.SetLoadedFlag
 }
 interface IArchiveTemplateAction{
     type: TemplatesActions.ArchiveTemplate;
@@ -73,4 +78,5 @@ export type TemplateActionTypes =
     IArchiveTemplateAction |
     IPublishTemplateAction |
     ISetLoaderTemplateAction |
-    ISetTemplateUpdatingAction;
+    ISetTemplateUpdatingAction |
+    ISetLoadedFlag;

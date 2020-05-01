@@ -17,7 +17,8 @@ const mapState = (state: IState) => ({
     accessToken: state.user.accessToken,
     isLoading: state.templates.isLoading,
     isUpdating: state.templates.isUpdating,
-    templates: state.templates.templates
+    templates: state.templates.templates,
+    wasLoaded: state.templates.wasLoaded
 })
 
 const mapDispatch = {
@@ -35,12 +36,12 @@ type Props = PropsFromRedux & {
 const TemplatesPage = (props: Props) => {
     const history = useHistory()
     useEffect(() => {
-        if(props.templates.length === 0) {
+        if(!props.wasLoaded) {
             props.fetchTemplates(props.accessToken || '')
         }
     }, [])
     const onCreateNewTemplate = () => {
-        history.push('/templates/new')
+        history.push('/templates/new/edit')
     }
     return (
         <PageLayout 

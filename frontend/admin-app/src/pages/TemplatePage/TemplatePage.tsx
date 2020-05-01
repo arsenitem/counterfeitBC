@@ -37,7 +37,8 @@ const mapState = (state: IState) => ({
     accessToken: state.user.accessToken,
     isLoading: state.templates.isLoading,
     isUpdating: state.templates.isUpdating,
-    templates: state.templates.templates
+    templates: state.templates.templates,
+    wasLoaded: state.templates.wasLoaded
 })
 
 const mapDispatch = {
@@ -66,7 +67,7 @@ const TemplatePage = (props: Props) => {
     const { templateId } = useParams();
 
     useEffect(() => {
-        if (props.templates.length === 0) {
+        if (!props.wasLoaded) {
             props.fetchTemplates(props.accessToken || '')
         } else {
             if (props.templates.filter(t => t.templateId === templateId).length !== 0) {

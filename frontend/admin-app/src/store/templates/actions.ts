@@ -46,7 +46,9 @@ const setTemplateUpdating = (isUpdating: boolean): TemplateActionTypes => ({
     type: TemplatesActions.SetTemplateUpdating,
     isUpdating
 })
-
+const setLoadedFlag = (): TemplateActionTypes => ({
+    type: TemplatesActions.SetLoadedFlag
+})
 
 export function fetchTemplates(accessToken: string) {
     return async (dispatch: any) => {
@@ -55,6 +57,7 @@ export function fetchTemplates(accessToken: string) {
             dispatch(setLoaderTemplate(true))
             const templates = await templatesService.getTemplates()
             dispatch(setTemplates(templates))
+            dispatch(setLoadedFlag())
         } catch(e){
             dispatch(SetError('Произошла ошибка при загрузке шаблонов.'))
         } finally {
