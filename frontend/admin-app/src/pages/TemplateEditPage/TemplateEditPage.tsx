@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import cn from 'classnames'
 import TextField from '@material-ui/core/TextField';
@@ -11,7 +11,7 @@ import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import ChevronRightOutlinedIcon from '@material-ui/icons/ChevronRightOutlined';
 import { Typography } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete';
-
+import {useLocation, useHistory, useParams} from 'react-router-dom'
 import { useForm, useFieldArray } from "react-hook-form";
 
 import Button from '@material-ui/core/Button';
@@ -26,7 +26,7 @@ import {
     startPublishTemplates,
     startDeleteTemplate
 } from '../../store/templates/'
-import { ITemplate } from '../../models'
+import { ITemplate, ILink, IProductSpecification } from '../../models'
 import  PageLayout from '../../components/Layout/PageLayout/PageLayout'
 import styles from './TemplateEditPage.module.scss'
 
@@ -61,47 +61,87 @@ interface ITemplateForm {
     productType: string;
     productName: string;
     description: string;
-    specifications: ISpecification[],
-    links: ILink[]
+    specifications: IProductSpecification[];
+    links: ILink[];
 }
-interface ISpecification{
-    parameterName: string;
-    value: string;
-    unit: string;
-}
-interface ILink{
-    linkName: string;
-    url: string;
-}
+
 const TemplateEditPage = (props: Props) => {
-    
-    const { register, control, handleSubmit, errors } = useForm<ITemplateForm>();
+    const location = useLocation();
+    console.log(location)
+    const history = useHistory()
+    const { templateId } = useParams();
+    const [templateData, setTemplateData] = useState<ITemplate | null>(null)
+
+    const { register, control, handleSubmit, errors, watch, setValue } = useForm<ITemplateForm>();
+    const pageTitle = watch('productName')
     const {
         fields: specsFields,
         append: specsAppend,
         remove: specsRemove
-      } = useFieldArray<ISpecification>({ control, name: "specifications" });
+      } = useFieldArray<IProductSpecification>({ control, name: "specifications" });
     const {
         fields: linksFields,
         append: linksAppend,
         remove: linksRemove
     } = useFieldArray<ILink>({ control, name: "links" });
 
-    const onSubmit = (data: ITemplateForm) => {
-        console.log(data);
-    };
+    const setFormFields = (template: ITemplate) => {
+        //debugger
+        setValue([
+            {productType: template.productType},
+            {productName: template.productName},
+            {description: template.description}
+        ], true)
+        const specs = template.specifications.map((s): IProductSpecification => ({
+            parameterName: s.parameterName,
+            value: s.value.toString(),
+            unit: s.unit ? s.unit : ''
+        }))
+        setValue('specifications', specs, true)
+        setValue('links', [{"linkName": 'fdf', "url": ''}], true)
+    }
+    useEffect(() => {
+        if (templateId === 'new') {
+            // copied
+            if (location.state) {
+                const template = location.state as ITemplate
+                template.templateId = null
+                setTemplateData(template)
+                setFormFields(template)
+            } else { // absolutely new
 
+            }
+        } else {
+            //edit
+            if (location.state) {
+                setTemplateData(location.state as ITemplate)
+                setFormFields(location.state as ITemplate)
+            } else { // no state provided
+                history.push(`/templates/${templateId}`)
+            }
+        }
+    }, [])
     
-    const onSaveButtonClick = () => {
+
+    const goToPreview = () => {
+        if(templateData?.templateId) {
+            history.push(`/templates/${templateData.templateId}`)
+        }
+    }
+    const onSave = () => {
         const form = document.getElementById('templateForm')
         if (form){
             form.dispatchEvent(new Event('submit'))
         }  
     }
 
+    const onSubmit = (data: ITemplateForm) => {
+        console.log(data);
+    };
+
     return (
         <PageLayout 
-            pageTitle={'Новый шаблон'}
+            pageTitle={pageTitle || 'Новый шаблон'}
             backUrl={'/templates'}
         >
             <div className={styles['template-edit']}>
@@ -112,6 +152,9 @@ const TemplateEditPage = (props: Props) => {
                                 <TextField
                                     label="Тип продукта"
                                     name={'productType'}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                      }}
                                     inputRef={register({
                                         required: "Введите название типа",
                                         maxLength: { value: 50, message: "Максимум 50 символов"}
@@ -127,6 +170,9 @@ const TemplateEditPage = (props: Props) => {
                                     fullWidth
                                     label="Название"
                                     name={'productName'}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                      }}
                                     inputRef={register({
                                         required: "Введите название продукта",
                                         maxLength: { value: 50, message: "Максимум 100 символов"}
@@ -137,13 +183,15 @@ const TemplateEditPage = (props: Props) => {
                             </Grid>
 
                         </Grid>
-                    </div>
-                    
-                    <div className={cn(styles['template-form__description'], styles['template-form__input-group'])}>
+
                         <TextField
+                            style={{marginTop: '16px'}}
                             label="Описание"
                             multiline
-                            rows={4}
+                            rows={6}
+                            InputLabelProps={{
+                                shrink: true,
+                              }}
                             name={'description'}
                             inputRef={register({
                                 required: "Введите описание",
@@ -156,7 +204,7 @@ const TemplateEditPage = (props: Props) => {
                     </div>
 
                     <div className={cn(styles['template-form__specifications'], styles['template-form__input-group'])}>
-                        <Typography variant="body1">Характеристики</Typography>
+                        <Typography style={{marginBottom: '8px'}} variant="body1">Характеристики</Typography>
                         {specsFields.map((item, index) => {
                             const fieldName = `specifications[${index}]`
                             return (
@@ -164,6 +212,9 @@ const TemplateEditPage = (props: Props) => {
                                     <Grid container spacing={2}>
                                         <Grid item md={5} sm={12}>
                                             <TextField
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                  }}
                                                 label={index === 0 ? 'Параметр' : null}
                                                 name={`${fieldName}.parameterName`}
                                                 inputRef={register({
@@ -178,6 +229,9 @@ const TemplateEditPage = (props: Props) => {
                                 
                                         <Grid item md={5} sm={12}>
                                             <TextField
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                  }}
                                                 fullWidth
                                                 label={index === 0 ? 'Значение' : null}
                                                 name={`${fieldName}.value`}
@@ -196,6 +250,9 @@ const TemplateEditPage = (props: Props) => {
                                                 renderInput={(params: any) => (
                                                 <TextField 
                                                     {...params} 
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                      }}
                                                     label={index === 0 ? 'Единица' : null}
                                                     inputRef={register({
                                                         maxLength: { value: 20, message: "Максимум 20 символов"}
@@ -218,6 +275,7 @@ const TemplateEditPage = (props: Props) => {
                         
                         
                         <Button
+                            style={{marginTop: '8px'}}
                             onClick={() => specsAppend({parameterName: '', value: '', unit: ''})}
                             color="primary"
                             startIcon={<AddIcon />}
@@ -225,7 +283,7 @@ const TemplateEditPage = (props: Props) => {
                     </div>
 
                     <div className={cn(styles['template-form__links'], styles['template-form__input-group'])}>
-                        <Typography variant="body1">Релевантные ссылки</Typography>
+                        <Typography style={{marginBottom: '8px'}} variant="body1">Релевантные ссылки</Typography>
                         
                         {linksFields.map((item, index) => {
                             const fieldName = `links[${index}]`
@@ -234,7 +292,10 @@ const TemplateEditPage = (props: Props) => {
                                     <Grid container spacing={2}>
                                         <Grid item md={4} sm={12}>
                                             <TextField
-                                                label={index === 0 ? 'Единица' : null}
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                  }}
+                                                label={index === 0 ? 'Сайт' : null}
                                                 name={`${fieldName}.linkName`}
                                                 inputRef={register({
                                                     required: "Введите название сайта",
@@ -248,6 +309,9 @@ const TemplateEditPage = (props: Props) => {
                                 
                                         <Grid item md={8} sm={12}>
                                             <TextField
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                  }}
                                                 fullWidth
                                                 label={index === 0 ? 'URL' : null}
                                                 inputRef={register({
@@ -270,6 +334,7 @@ const TemplateEditPage = (props: Props) => {
                         
                         
                         <Button
+                            style={{marginTop: '8px'}}
                             color="primary"
                             onClick={() => linksAppend({linkName: '', url: ''})}
                             startIcon={<AddIcon />}
@@ -287,15 +352,17 @@ const TemplateEditPage = (props: Props) => {
                             startIcon={<SaveOutlinedIcon />} 
                             variant="outlined" 
                             color="primary"
+                            onClick={() => onSave()}
                         >
                             Сохранить
                         </Button>
-                        {true && (
+                        {templateData?.templateId && (
                             <Button 
                                 size="small"
                                 endIcon={<ChevronRightOutlinedIcon />} 
                                 variant="outlined" 
                                 color="primary"
+                                onClick={() => goToPreview()}
                             >
                                 Вернуться к просмотру
                             </Button>
