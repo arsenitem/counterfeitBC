@@ -65,7 +65,7 @@ const TemplateCard: FunctionComponent<ITemplateCardProps> = (props: ITemplateCar
         props.startSetVisibilityTemplates(props.template, !props.template.isVisible, props.accessToken || '')
     }
     const onEdit = () => {
-        // open template page for editing
+        history.push(`/templates/${props.template.templateId}/edit`, props.template)
     }
     const onUnarchive = () => {
         props.startArchiveTemplates(props.template, false, props.accessToken || '')
@@ -78,7 +78,7 @@ const TemplateCard: FunctionComponent<ITemplateCardProps> = (props: ITemplateCar
         setModalConfig(getModalConfig('ARCHIVE', archiveTemplate, onCloseModal))
     }
     const onCopy = () => {
-        // open template page for editing
+        history.push(`/templates/new/edit`, props.template)
     }
     const onDelete = () => {
         const deleteTemplate = () => {

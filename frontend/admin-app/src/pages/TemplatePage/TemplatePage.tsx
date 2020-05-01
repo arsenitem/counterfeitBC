@@ -95,10 +95,14 @@ const TemplatePage = (props: Props) => {
         setModalConfig(getModalConfig('PUBLISH', publishTemplate, onCloseModal))
     }
     const onEdit = () => {
-
+        if(template){
+            history.push(`/templates/${template.templateId}/edit`, template)
+        }
     }
     const onCopy = () => {
-
+        if(template){
+            history.push(`/templates/new/edit`, template)
+        }
     }
     const setVisibility = () => {
         props.startSetVisibilityTemplates(template as ITemplate, !(template as ITemplate).isVisible, props.accessToken || '')
