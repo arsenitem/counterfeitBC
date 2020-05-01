@@ -75,7 +75,7 @@ interface ILink{
 }
 const TemplateEditPage = (props: Props) => {
     
-    const { register, control, handleSubmit } = useForm<ITemplateForm>();
+    const { register, control, handleSubmit, errors } = useForm<ITemplateForm>();
     const {
         fields: specsFields,
         append: specsAppend,
@@ -112,8 +112,13 @@ const TemplateEditPage = (props: Props) => {
                                 <TextField
                                     label="Тип продукта"
                                     name={'productType'}
-                                    inputRef={register}
+                                    inputRef={register({
+                                        required: "Введите название типа",
+                                        maxLength: { value: 50, message: "Максимум 50 символов"}
+                                    })}
                                     fullWidth
+                                    error={!!errors?.productType?.message}
+                                    helperText={errors?.productType?.message}
                                 />
                             </Grid>
                     
@@ -122,7 +127,12 @@ const TemplateEditPage = (props: Props) => {
                                     fullWidth
                                     label="Название"
                                     name={'productName'}
-                                    inputRef={register}
+                                    inputRef={register({
+                                        required: "Введите название продукта",
+                                        maxLength: { value: 50, message: "Максимум 100 символов"}
+                                    })}
+                                    error={!!errors?.productName?.message}
+                                    helperText={errors?.productName?.message}
                                 />
                             </Grid>
 
@@ -135,8 +145,13 @@ const TemplateEditPage = (props: Props) => {
                             multiline
                             rows={4}
                             name={'description'}
-                            inputRef={register}
+                            inputRef={register({
+                                required: "Введите описание",
+                                maxLength: { value: 1000, message: "Максимум 1000 символов"}
+                            })}
                             fullWidth
+                            error={!!errors?.description?.message}
+                            helperText={errors?.description?.message}
                         />
                     </div>
 
@@ -151,8 +166,13 @@ const TemplateEditPage = (props: Props) => {
                                             <TextField
                                                 label={index === 0 ? 'Параметр' : null}
                                                 name={`${fieldName}.parameterName`}
-                                                inputRef={register()}
+                                                inputRef={register({
+                                                    required: "Введите параметр",
+                                                    maxLength: { value: 50, message: "Максимум 50 символов"}
+                                                })}
                                                 fullWidth
+                                                error={!!errors?.specifications?.[index].parameterName?.message}
+                                                helperText={errors?.specifications?.[index].parameterName?.message}
                                             />
                                         </Grid>
                                 
@@ -161,7 +181,12 @@ const TemplateEditPage = (props: Props) => {
                                                 fullWidth
                                                 label={index === 0 ? 'Значение' : null}
                                                 name={`${fieldName}.value`}
-                                                inputRef={register()}
+                                                inputRef={register({
+                                                    required: "Введите значение",
+                                                    maxLength: { value: 100, message: "Максимум 100 символов"}
+                                                })}
+                                                error={!!errors?.specifications?.[index].value?.message}
+                                                helperText={errors?.specifications?.[index].value?.message}
                                             />
                                         </Grid>
                                         <Grid item md={2} sm={12}>
@@ -172,8 +197,12 @@ const TemplateEditPage = (props: Props) => {
                                                 <TextField 
                                                     {...params} 
                                                     label={index === 0 ? 'Единица' : null}
-                                                    inputRef={register()}
+                                                    inputRef={register({
+                                                        maxLength: { value: 20, message: "Максимум 20 символов"}
+                                                    })}
                                                     name={`${fieldName}.unit`}
+                                                    error={!!errors?.specifications?.[index].unit?.message}
+                                                    helperText={errors?.specifications?.[index].unit?.message}
                                                  />
                                                 )}
                                             />
@@ -207,8 +236,13 @@ const TemplateEditPage = (props: Props) => {
                                             <TextField
                                                 label={index === 0 ? 'Единица' : null}
                                                 name={`${fieldName}.linkName`}
-                                                inputRef={register()}
+                                                inputRef={register({
+                                                    required: "Введите название сайта",
+                                                    maxLength: { value: 50, message: "Максимум 50 символов"}
+                                                })}
                                                 fullWidth
+                                                error={!!errors?.links?.[index].linkName?.message}
+                                                helperText={errors?.links?.[index].linkName?.message}
                                             />
                                         </Grid>
                                 
@@ -216,8 +250,13 @@ const TemplateEditPage = (props: Props) => {
                                             <TextField
                                                 fullWidth
                                                 label={index === 0 ? 'URL' : null}
-                                                inputRef={register()}
+                                                inputRef={register({
+                                                    required: "Введите ссылку",
+                                                    maxLength: { value: 50, message: "Максимум 1024 символа"}
+                                                })}
                                                 name={`${fieldName}.url`}
+                                                error={!!errors?.links?.[index].url?.message}
+                                                helperText={errors?.links?.[index]?.url?.message}
                                             />
                                         </Grid>
                                     </Grid>
