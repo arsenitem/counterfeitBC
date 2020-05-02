@@ -13,6 +13,7 @@ import { ITemplate } from '../../models'
 import styles from './TemplatesPage.module.scss'
 import cn from 'classnames'
 import  PageLayout from '../../components/Layout/PageLayout/PageLayout'
+import ProgressSpinner from '../../components/ProgressSpinner/ProgressSpinner'
 const mapState = (state: IState) => ({
     accessToken: state.user.accessToken,
     isLoading: state.templates.isLoading,
@@ -46,7 +47,11 @@ const TemplatesPage = (props: Props) => {
     return (
         <PageLayout 
             pageTitle={'Шаблоны'}
-            headerComponent={<Button onClick={() => onCreateNewTemplate()} startIcon={<AddIcon />} variant="outlined" color="primary">Создать шаблон</Button>}
+            headerComponent={props.isUpdating ? (
+                <ProgressSpinner/>
+            ) : (
+                <Button onClick={() => onCreateNewTemplate()} size="small" startIcon={<AddIcon />} variant="outlined" color="primary">Создать шаблон</Button>
+            )}
         >
             {props.isLoading ? (
                 <PageSpinner/>

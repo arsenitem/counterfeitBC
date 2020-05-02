@@ -29,6 +29,7 @@ import styles from './TemplatePage.module.scss'
 import cn from 'classnames'
 import  PageLayout from '../../components/Layout/PageLayout/PageLayout'
 import TemplateDialog from '../../components/TemplateDialog/TemplateDialog'
+import ProgressSpinner from '../../components/ProgressSpinner/ProgressSpinner'
 import TemplateView from '../../components/TemplateView/TemplateView'
 import PageSpinner from '../../components/PageSpinner/PageSpinner'
 import {getModalConfig, ITemplateModalConfig} from '../../components/TemplateDialog/templateModalConfig'
@@ -92,6 +93,7 @@ const TemplatePage = (props: Props) => {
     const onPublish = () => {
         const publishTemplate = () => {
             props.startPublishTemplates(template as ITemplate, props.accessToken || '')
+            setModalConfig(null)
         }
         setModalConfig(getModalConfig('PUBLISH', publishTemplate, onCloseModal))
     }
@@ -136,6 +138,7 @@ const TemplatePage = (props: Props) => {
                 <PageLayout 
                     pageTitle={template ? template.productName : 'Новый шаблон'}
                     backUrl={'/templates'}
+                    headerComponent={props.isUpdating && <ProgressSpinner/>}
                 >
                     {template && (
                         <div className={styles['template-page']}>

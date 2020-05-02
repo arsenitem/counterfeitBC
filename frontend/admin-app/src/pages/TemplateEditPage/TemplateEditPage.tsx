@@ -13,6 +13,7 @@ import { Typography } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import {useLocation, useHistory, useParams} from 'react-router-dom'
 import { useForm, useFieldArray } from "react-hook-form";
+import ProgressSpinner from '../../components/ProgressSpinner/ProgressSpinner'
 
 import Button from '@material-ui/core/Button';
 import {IState} from '../../store'
@@ -169,6 +170,7 @@ const TemplateEditPage = (props: Props) => {
         <PageLayout 
             pageTitle={pageTitle || 'Новый шаблон'}
             backUrl={'/templates'}
+            headerComponent={props.isUpdating && <ProgressSpinner/>}
         >
             <div className={styles['template-edit']}>
                 <form id="templateForm" onSubmit={handleSubmit(onSubmit)} className={cn(styles['template-form'], styles['template-edit__template-form'])}>
