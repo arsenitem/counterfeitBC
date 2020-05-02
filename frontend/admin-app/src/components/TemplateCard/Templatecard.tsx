@@ -1,10 +1,4 @@
 import React, {FunctionComponent, useState} from 'react'
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import { useHistory } from "react-router-dom";
 
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
@@ -32,10 +26,7 @@ import {getModalConfig, ITemplateModalConfig} from '../TemplateDialog/templateMo
 
 
 const mapState = (state: IState) => ({
-    accessToken: state.user.accessToken,
-    isLoading: state.templates.isLoading,
-    isUpdating: state.templates.isUpdating,
-    templates: state.templates.templates
+    accessToken: state.user.accessToken
 })
 
 const mapDispatch = {

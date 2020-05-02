@@ -17,7 +17,7 @@ const setProducts = (products: IProduct[]): ProductsActionsTypes => ({
     products
 })
 
-export function fetchTemplates(accessToken: string) {
+export function fetchProducts(accessToken: string) {
     return async (dispatch: any) => {
         try{
             dispatch(setLoader(true))
