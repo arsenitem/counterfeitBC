@@ -70,23 +70,17 @@ const TemplatePage = (props: Props) => {
     useEffect(() => {
         if (!props.wasLoaded) {
             props.fetchTemplates(props.accessToken || '')
-        } else {
-            if (props.templates.filter(t => t.templateId === templateId).length !== 0) {
-                setTemplate(props.templates.filter(t => t.templateId === templateId)[0])
-            } else {
-                history.push('/templates')
-            }
         }
     }, [])
     useEffect(() => {  
-        if (props.templates.length > 0) {
+        if (props.wasLoaded) {
             if (props.templates.filter(t => t.templateId === templateId).length !== 0) {
                 setTemplate(props.templates.filter(t => t.templateId === templateId)[0])
             } else {
                 history.push('/templates')
             }
         }
-    }, [props.templates])
+    }, [props.templates, props.wasLoaded])
 
     const onCloseModal = () => setModalConfig(null)
 
