@@ -24,6 +24,7 @@ export function fetchProducts(accessToken: string) {
             const productsService = new ProductsService(accessToken)
             const products = await productsService.getAllProducts()
             dispatch(setProducts(products))
+            dispatch(setLoadedFlag())
         } catch(e){
             dispatch(SetError('Произошла ошибка при загрузке шаблонов.'))
         } finally {
