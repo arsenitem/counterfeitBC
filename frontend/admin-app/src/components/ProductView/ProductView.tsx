@@ -1,11 +1,17 @@
 import React from 'react'
 import { IProduct } from '../../models'
+import TemplateView from '../TemplateView/TemplateView'
+import styles from './ProductView.module.scss'
+
 interface IProductViewProps{
     product: IProduct
 }
 const ProductView = (props: IProductViewProps) => {
     return (
-        <div>hello</div>
+        <div className={styles['product-view']}>
+            <TemplateView templateData={props.product}/>
+            
+        </div>
     )
 }
 

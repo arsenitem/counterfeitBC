@@ -70,12 +70,11 @@ const ProductPage = (props: Props) => {
                     {product && (
                         <div className={styles['product-page']}>
                             
-                            <div className={styles['product-form']}>
+                            <div className={styles['product-page__content']}>
                                 <ProductView product={product}/> 
                             </div>
                         </div>
                     )}
-                    
                 </PageLayout>
             )}
         </>
