@@ -42,21 +42,20 @@ const ProductPage = (props: Props) => {
     useEffect(() => {
         if (!props.wasLoaded) {
             props.fetchProducts(props.accessToken || '')
-        } else {
+        }
+    }, [])
+    useEffect(() => {  
+        debugger
+        if (props.wasLoaded) {
             if (props.products.filter(p => p.productId === productId).length !== 0) {
+                debugger
                 setProduct(props.products.filter(p => p.productId === productId)[0])
             } else {
                 history.push('/products')
             }
         }
-    }, [])
-    useEffect(() => {  
-        if (props.products.filter(p => p.productId === productId).length !== 0) {
-            setProduct(props.products.filter(p => p.productId === productId)[0])
-        } else {
-            history.push('/products')
-        }
-    }, [props.products])
+        
+    }, [props.products, props.wasLoaded])
 
     return (
         <>
