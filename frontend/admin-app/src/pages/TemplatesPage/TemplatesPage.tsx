@@ -59,6 +59,13 @@ const TemplatesPage = (props: Props) => {
                 <div className={styles['templates-page']}>
                     <div className={styles['templates-page__filters']}></div>
                     <div className={cn(styles['templates-page__templates'], styles['templates'])}>
+                        {props.templates.length === 0 && (
+                            <div className={styles['templates-page__placeholder']}>
+                                <div className={styles['templates-page__placeholder-icon']}><AddIcon/></div>
+                                <h1 className={styles['templates-page__placeholder-header']}>Нет ни одного шаблона</h1>
+                                <span className={styles['templates-page__placeholder-descr']}>Чтобы начать записывать данные о продуктах, необходимо создать и опубликовать шаблон</span>
+                            </div>
+                        )}
                         {
                             props.templates.map(t => (
                                 <div className={styles['templates__template-wrapper']} key={t.templateId as string}>

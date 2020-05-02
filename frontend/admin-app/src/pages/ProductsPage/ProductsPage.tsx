@@ -1,6 +1,4 @@
 import React, {useEffect} from 'react'
-import TemplateCard from '../../components/TemplateCard/Templatecard'
-import Button from '@material-ui/core/Button';
 import { useHistory } from "react-router-dom";
 import AddIcon from '@material-ui/icons/Add';
 import { connect, ConnectedProps } from 'react-redux'
@@ -39,9 +37,7 @@ const Productspage = (props: Props) => {
             props.fetchProducts(props.accessToken || '')
         }
     }, [])
-    const onCreateNewTemplate = () => {
-        history.push('/templates/new/edit')
-    }
+
     return (
         <PageLayout 
             pageTitle={'Продукты'}
@@ -52,9 +48,16 @@ const Productspage = (props: Props) => {
                 <div className={styles['products-page']}>
                     <div className={styles['products-page__filters']}></div>
                     <div className={cn(styles['products-page__products'], styles['products'])}>
+                        {props.products.length === 0 && (
+                            <div className={styles['products-page__placeholder']}>
+                                <div className={styles['products-page__placeholder-icon']}><AddIcon/></div>
+                                <h1 className={styles['products-page__placeholder-header']}>Нет ни одного продукта</h1>
+                                <span className={styles['products-page__placeholder-descr']}>Создайте шаблон, а потом запишите данные о продукте на NFC чип, и они появятся здесь</span>
+                            </div>
+                        )}
                         {
                             props.products.map(p => (
-                                <div className={styles['products__template-wrapper']} key={p.productId}>
+                                <div className={styles['products__product-wrapper']} key={p.productId}>
                                     <ProductCard product={p}/>
                                 </div>
                             ))
