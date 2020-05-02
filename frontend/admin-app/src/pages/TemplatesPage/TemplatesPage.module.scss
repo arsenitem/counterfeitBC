@@ -1,0 +1,40 @@
+.templates-page{
+    &__filters{
+
+    }
+    &__templates{
+
+    }
+    &__archived{
+
+    }
+
+    &__placeholder{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 200px;
+        text-align: center;
+
+        &-icon{
+            transform: scale(2);
+            margin-bottom: -8px;
+        }
+        &-header{
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+        &-descr{
+            font-weight: 400;
+            font-size: 12px;
+        }
+    }
+}
+
+.templates{
+    &__template-wrapper{
+        margin-bottom: 8px;
+    }
+}

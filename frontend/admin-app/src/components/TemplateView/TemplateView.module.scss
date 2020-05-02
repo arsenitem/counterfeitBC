@@ -1,0 +1,55 @@
+.template-view{
+    &__header{
+
+    }
+    &__image{
+        height: 400px;
+        background-size: cover;
+        background-position: center;
+
+    }
+    &__block{
+        margin-bottom: 24px;
+
+        > *:first-child{
+            margin-bottom: 8px;
+        }
+    }
+
+    &__description{
+        font-size: 14px;
+    }
+
+    &__header{
+        font-size: 16px;
+    }
+}
+
+.links{
+    
+
+    &__link{
+        text-decoration: none;
+        color: inherit;
+        cursor: pointer;
+        padding: 8px 16px;
+        border-radius: 8px;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.308);
+        display: flex;
+        align-items: center;
+        transition: box-shadow 200ms ease-in;
+        margin-bottom: 16px;
+
+        &:hover{
+            box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.208);
+        }
+    }
+    &__link-icon{
+        margin-right: 16px;
+    }
+    &__link-text{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}

@@ -1,0 +1,24 @@
+.product-view{
+    &__group{
+        margin-bottom: 24px;
+    }
+
+    &__map{
+        height: 200px;
+        background-image: url('https://images.squarespace-cdn.com/content/v1/5c6e1f1bd7819e7db280a3df/1551157754843-5LUR6WPJXJMAPPR2W75C/ke17ZwdGBToddI8pDm48kDITAuO7WvGYe_HtkNx7UXUUqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8N_N4V1vUb5AoIIIbLZhVYxCRW4BPu10St3TBAUQYVKcQbIjqAfhDXNkvlGRG3YzfcUFWQufmCUNtpzqkVhTQlW_0KK_D1La8oUscKbt8gvv/GoogleMaps-PinsArtboard-1%402x.png?format=2500w');
+        background-size: cover;
+        background-position: center;
+    }
+    &__produced-row{
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+        font-size: 14px;
+        font-weight: 600;
+
+        &> *:first-child{
+            margin-right: 16px;
+            font-weight: 400;
+        }
+    }
+}
