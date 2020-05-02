@@ -8,6 +8,7 @@ import MainLayout from './components/Layout/MainLayout/MainLayout'
 import LoginPage from './pages/LoginPage/LoginPage'
 import SignUpPage from './pages/SignUpPage/SignUpPage'
 
+
 const ProductsPage = React.lazy(() => import('./pages/ProductsPage/ProductsPage'));
 const ProfilePage = React.lazy(() => import('./pages/ProfilePage/ProfilePage'));
 const TemplatesPage = React.lazy(() => import('./pages/TemplatesPage/TemplatesPage'));
@@ -15,6 +16,7 @@ const TeamPage = React.lazy(() => import('./pages/TeamPage/TeamPage'));
 const TemplatePage = React.lazy(() => import('./pages/TemplatePage/TemplatePage'))
 const TemplateEditPage =React.lazy(() => import('./pages/TemplateEditPage/TemplateEditPage'))
 const ProductPage = React.lazy(() => import('./pages/ProductPage/ProductPage'))
+const PublicProductPage = React.lazy(() => import('./pages/PublicProductPage/PublicProductPage'))
 
 
 
@@ -35,11 +37,14 @@ function App(props: IAppProps) {
   return (
     <>
       {!props.accessToken && !props.user ? (
-        <Switch>
-          <Route exact path="/login" component={LoginPage} />
-          <Route exact path="/signup" component={SignUpPage} />
-          <Redirect to="/login"/>
-        </Switch>
+        <React.Suspense fallback={<PageSpinner />}>
+          <Switch>
+            <Route exact path="/login" component={LoginPage} />
+            <Route exact path="/signup" component={SignUpPage} />
+            <Route exact path="/products/:productId/customer-view" component={PublicProductPage} />
+            <Redirect to="/login"/>
+          </Switch>
+        </React.Suspense>
       ) : (
         <MainLayout>
           <React.Suspense fallback={<PageSpinner />}>

@@ -11,6 +11,6 @@ export class ProductsService {
 
     public async getProduct(productId: string): Promise<IProduct> {
         await new Promise(res => setTimeout(res, 1000))
-        return mockProducts[0]
+        return mockProducts[1]
     }
 }
