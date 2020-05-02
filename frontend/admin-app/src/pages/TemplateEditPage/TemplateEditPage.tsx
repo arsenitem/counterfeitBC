@@ -67,39 +67,37 @@ interface ITemplateForm {
 
 const TemplateEditPage = (props: Props) => {
     const location = useLocation();
-    console.log(location)
     const history = useHistory()
     const { templateId } = useParams();
     const [templateData, setTemplateData] = useState<ITemplate | null>(null)
 
-    const { register, control, handleSubmit, errors, watch, setValue } = useForm<ITemplateForm>();
+    const { register, control, handleSubmit, errors, watch, setValue } = useForm<ITemplateForm>({
+        defaultValues: {
+            productType: location.state ? (location.state as ITemplate).productType : '',
+            productName: location.state ? (location.state as ITemplate).productName : '',
+            description: location.state ? (location.state as ITemplate).description : '',
+            specifications: location.state ? (location.state as ITemplate).specifications.map((s): IProductSpecification => ({
+                parameterName: s.parameterName,
+                value: s.value.toString(),
+                unit: s.unit ? s.unit : ''
+            })) : [],
+            links: location.state ? (location.state as ITemplate).links : []
+        }
+    });
     const pageTitle = watch('productName')
     const {
         fields: specsFields,
         append: specsAppend,
+        prepend: specsPrepend,
         remove: specsRemove
       } = useFieldArray<IProductSpecification>({ control, name: "specifications" });
     const {
         fields: linksFields,
         append: linksAppend,
+        prepend: linksPrepend,
         remove: linksRemove
     } = useFieldArray<ILink>({ control, name: "links" });
-
-    const setFormFields = (template: ITemplate) => {
-        //debugger
-        setValue([
-            {productType: template.productType},
-            {productName: template.productName},
-            {description: template.description}
-        ], true)
-        const specs = template.specifications.map((s): IProductSpecification => ({
-            parameterName: s.parameterName,
-            value: s.value.toString(),
-            unit: s.unit ? s.unit : ''
-        }))
-        setValue('specifications', specs, true)
-        setValue('links', [{"linkName": 'fdf', "url": ''}], true)
-    }
+    
     useEffect(() => {
         if (templateId === 'new') {
             // copied
@@ -107,7 +105,6 @@ const TemplateEditPage = (props: Props) => {
                 const template = location.state as ITemplate
                 template.templateId = null
                 setTemplateData(template)
-                setFormFields(template)
             } else { // absolutely new
 
             }
@@ -115,7 +112,6 @@ const TemplateEditPage = (props: Props) => {
             //edit
             if (location.state) {
                 setTemplateData(location.state as ITemplate)
-                setFormFields(location.state as ITemplate)
             } else { // no state provided
                 history.push(`/templates/${templateId}`)
             }
@@ -135,8 +131,13 @@ const TemplateEditPage = (props: Props) => {
         }  
     }
 
+
     const onSubmit = (data: ITemplateForm) => {
-        console.log(data);
+        if (templateData) { // edit existing
+
+        } else { //create new
+            
+        }
     };
 
     return (
@@ -222,8 +223,8 @@ const TemplateEditPage = (props: Props) => {
                                                     maxLength: { value: 50, message: "Максимум 50 символов"}
                                                 })}
                                                 fullWidth
-                                                error={!!errors?.specifications?.[index].parameterName?.message}
-                                                helperText={errors?.specifications?.[index].parameterName?.message}
+                                                error={!!errors?.specifications?.[index]?.parameterName?.message}
+                                                helperText={errors?.specifications?.[index]?.parameterName?.message}
                                             />
                                         </Grid>
                                 
@@ -239,8 +240,8 @@ const TemplateEditPage = (props: Props) => {
                                                     required: "Введите значение",
                                                     maxLength: { value: 100, message: "Максимум 100 символов"}
                                                 })}
-                                                error={!!errors?.specifications?.[index].value?.message}
-                                                helperText={errors?.specifications?.[index].value?.message}
+                                                error={!!errors?.specifications?.[index]?.value?.message}
+                                                helperText={errors?.specifications?.[index]?.value?.message}
                                             />
                                         </Grid>
                                         <Grid item md={2} sm={12}>
@@ -258,8 +259,8 @@ const TemplateEditPage = (props: Props) => {
                                                         maxLength: { value: 20, message: "Максимум 20 символов"}
                                                     })}
                                                     name={`${fieldName}.unit`}
-                                                    error={!!errors?.specifications?.[index].unit?.message}
-                                                    helperText={errors?.specifications?.[index].unit?.message}
+                                                    error={!!errors?.specifications?.[index]?.unit?.message}
+                                                    helperText={errors?.specifications?.[index]?.unit?.message}
                                                  />
                                                 )}
                                             />
@@ -302,8 +303,8 @@ const TemplateEditPage = (props: Props) => {
                                                     maxLength: { value: 50, message: "Максимум 50 символов"}
                                                 })}
                                                 fullWidth
-                                                error={!!errors?.links?.[index].linkName?.message}
-                                                helperText={errors?.links?.[index].linkName?.message}
+                                                error={!!errors?.links?.[index]?.linkName?.message}
+                                                helperText={errors?.links?.[index]?.linkName?.message}
                                             />
                                         </Grid>
                                 
@@ -319,7 +320,7 @@ const TemplateEditPage = (props: Props) => {
                                                     maxLength: { value: 50, message: "Максимум 1024 символа"}
                                                 })}
                                                 name={`${fieldName}.url`}
-                                                error={!!errors?.links?.[index].url?.message}
+                                                error={!!errors?.links?.[index]?.url?.message}
                                                 helperText={errors?.links?.[index]?.url?.message}
                                             />
                                         </Grid>
@@ -340,10 +341,7 @@ const TemplateEditPage = (props: Props) => {
                             startIcon={<AddIcon />}
                         > Добавить ссылку</Button>
                     </div>
-                    
-                    <button type="submit">
-                        save
-                    </button>
+
                 </form>
                 <div className={cn(styles['template-edit'], styles['template-edit__actions-panel'])}>
                     <div className={styles['actions-panel__inner-wrapper']}>           
