@@ -5,7 +5,6 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
-import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import ChevronRightOutlinedIcon from '@material-ui/icons/ChevronRightOutlined';
@@ -18,14 +17,9 @@ import ProgressSpinner from '../../components/ProgressSpinner/ProgressSpinner'
 import Button from '@material-ui/core/Button';
 import {IState} from '../../store'
 import { 
-    fetchTemplates,
-    startSetVisibilityTemplates,
-    startArchiveTemplates,
     startUpdateTemplates,
     startCreateTemplates,
-    saveProgressTemplate,
-    startPublishTemplates,
-    startDeleteTemplate
+    saveProgressTemplate
 } from '../../store/templates/'
 import { ITemplate, ILink, IProductSpecification } from '../../models'
 import  PageLayout from '../../components/Layout/PageLayout/PageLayout'
@@ -33,20 +27,13 @@ import styles from './TemplateEditPage.module.scss'
 
 const mapState = (state: IState) => ({
     accessToken: state.user.accessToken,
-    isLoading: state.templates.isLoading,
-    isUpdating: state.templates.isUpdating,
-    templates: state.templates.templates
+    isUpdating: state.templates.isUpdating
 })
 
 const mapDispatch = {
-    fetchTemplates,
-    startSetVisibilityTemplates,
-    startArchiveTemplates,
     startUpdateTemplates,
     startCreateTemplates,
     saveProgressTemplate,
-    startPublishTemplates,
-    startDeleteTemplate
 }
 
 const connector = connect(mapState, mapDispatch)
@@ -390,7 +377,7 @@ const TemplateEditPage = (props: Props) => {
                                 color="primary"
                                 onClick={() => goToPreview()}
                             >
-                                Вернуться к просмотру
+                                Перейти к просмотру
                             </Button>
                         )}
                         
