@@ -84,9 +84,10 @@ export function startDeleteTemplate(template: ITemplate, accessToken: string) {
 }
 
 
-export function startCreateTemplates(template: ITemplate, accessToken: string) {
+export function startCreateTemplates(template: ITemplate, accessToken: string, history: any) {
     return async (dispatch: any) => {
         try{
+            dispatch(setTemplateUpdating(true))
             const templatesService = new TemplatesService(accessToken)
             template.templateId = 'creatingtemplate'
             dispatch(addTemplate(template))
@@ -94,7 +95,8 @@ export function startCreateTemplates(template: ITemplate, accessToken: string) {
 
             dispatch(deleteTemplate(template.templateId))
             dispatch(addTemplate(createdTemplate))
-            dispatch(setTemplateUpdating(true))
+            
+            history.push(`/templates/${createdTemplate.templateId}/edit`)
         } catch(e){
             dispatch(SetError('Произошла ошибка при создании шаблона.'))
             dispatch(deleteTemplate(template.templateId as string))

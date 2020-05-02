@@ -120,8 +120,8 @@ const TemplateEditPage = (props: Props) => {
     
 
     const goToPreview = () => {
-        if(templateData?.templateId) {
-            history.push(`/templates/${templateData.templateId}`)
+        if(templateId !== 'new') {
+            history.push(`/templates/${templateId}`)
         }
     }
     const onSave = () => {
@@ -133,10 +133,35 @@ const TemplateEditPage = (props: Props) => {
 
 
     const onSubmit = (data: ITemplateForm) => {
-        if (templateData) { // edit existing
-
+        if (templateData && templateId !== 'new') { // edit existing
+            const template: ITemplate = {
+                templateId: templateData.templateId,
+                productType: data.productType || '',
+                productName: data.productName || '',
+                description: data.description || '',
+                imageUrl: 'https://source.unsplash.com/random',
+                links: data.links || [],
+                specifications: data.specifications || [],
+                isArchived: templateData.isArchived,
+                isPublished: templateData.isPublished,
+                isVisible: templateData.isVisible
+            }
+            props.startUpdateTemplates(templateData, template, props.accessToken || '')
+      
         } else { //create new
-            
+            const template: ITemplate = {
+                templateId: null,
+                productType: data.productType || '',
+                productName: data.productName || '',
+                description: data.description || '',
+                imageUrl: 'https://source.unsplash.com/random',
+                links: data.links || [],
+                specifications: data.specifications || [],
+                isArchived: false,
+                isPublished: false,
+                isVisible: false
+            }
+            props.startCreateTemplates(template, props.accessToken || '', history)
         }
     };
 
@@ -351,10 +376,11 @@ const TemplateEditPage = (props: Props) => {
                             variant="outlined" 
                             color="primary"
                             onClick={() => onSave()}
+                            disabled={props.isUpdating}
                         >
                             Сохранить
                         </Button>
-                        {templateData?.templateId && (
+                        {templateId !== 'new' && (
                             <Button 
                                 size="small"
                                 endIcon={<ChevronRightOutlinedIcon />} 
