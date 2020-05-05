@@ -20,7 +20,7 @@ pub struct Product {
     /// Information about the product
     pub product_info: String,
     /// Id of the nf chip
-    pub product_nfc: u64,
+    pub product_nfc: String,
     /// Date of production
     pub production_date: String,
       
@@ -35,7 +35,7 @@ impl Product {
         product_name: &String,
         last_scan_coord: &String,
         product_info: &String,
-        product_nfc: u64,     
+        product_nfc: &String,     
         production_date: &String,
                 
     ) -> Self {
@@ -46,7 +46,7 @@ impl Product {
             product_name: product_name.to_owned(),
             last_scan_coord: last_scan_coord.to_owned(),
             product_info: product_info.to_owned(),
-            product_nfc,    
+            product_nfc: product_nfc.to_owned(),    
             production_date: production_date.to_owned(),                  
         }
     }

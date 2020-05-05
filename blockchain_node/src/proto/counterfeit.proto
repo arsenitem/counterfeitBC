@@ -26,7 +26,7 @@ message Product {
     /// Information about the product
     string product_info = 6;
     /// Id of the nf chip
-    uint64 product_nfc = 7;
+    string product_nfc = 7;
     /// Date of production
     string production_date = 8;
 }
