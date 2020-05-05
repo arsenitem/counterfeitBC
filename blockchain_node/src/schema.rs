@@ -1,18 +1,3 @@
-// Copyright 2020 The Exonum Team
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//   http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
-//! Cryptocurrency database schema.
 
 use exonum::crypto::Hash;
 use exonum::crypto::PublicKey;
@@ -25,22 +10,20 @@ use exonum_derive::{FromAccess, RequireArtifact};
 
 use crate::{product::Product};
 
-/// Database schema for the cryptocurrency.
-///
-/// Note that the schema is crate-private, but it has a public part.
+/// Database schema for the counterfeitBC.
 #[derive(Debug, FromAccess)]
 pub(crate) struct SchemaImpl<T: Access> {
     /// Public part of the schema.
     #[from_access(flatten)]
     pub public: Schema<T>,
-    /// History for specific wallets.
+    /// History for specific products.
     pub product_history: Group<T, PublicKey, ProofListIndex<T::Base, Hash>>,
 }
 
-/// Public part of the cryptocurrency schema.
+/// Public part of the schema.
 #[derive(Debug, FromAccess, RequireArtifact)]
 pub struct Schema<T: Access> {
-    /// Map of wallet keys to information about the corresponding account.
+    /// Map of products keys to information about the corresponding product.
     pub products: RawProofMapIndex<T::Base, PublicKey, Product>,
 }
 
@@ -59,7 +42,7 @@ where
     T: Access,
     T::Base: RawAccessMut,
 {
-    /// Creates a new wallet and append first record to its history.
+    /// Creates a new product and append first record to its history.
     pub fn create_product(&mut self,
         product_public_key: PublicKey, 
         manufacturer_public_key : PublicKey,   
