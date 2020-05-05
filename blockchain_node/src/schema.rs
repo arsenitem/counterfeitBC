@@ -1,71 +1,87 @@
+// Copyright 2020 The Exonum Team
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//   http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+//! Cryptocurrency database schema.
+
+use exonum::crypto::Hash;
+use exonum::crypto::PublicKey;
 use exonum::merkledb::{
     access::{Access, FromAccess, RawAccessMut},
     Group, ObjectHash, ProofListIndex, RawProofMapIndex,
 };
-use crate::product::Product;
-use crate::manufacturer::Manufacturer;
-use crate::owner::Owner;
-use exonum::crypto::{Hash, PublicKey};
+use exonum::runtime::CallerAddress as Address;
+use exonum_derive::{FromAccess, RequireArtifact};
 
-/// Products table name
-pub const Products_TABLE: &str = "counterfeitBC.product";
+use crate::{product::Product};
 
-#[derive(Debug)]
-pub struct Schema<T> {
-    view: T,
+/// Database schema for the cryptocurrency.
+///
+/// Note that the schema is crate-private, but it has a public part.
+#[derive(Debug, FromAccess)]
+pub(crate) struct SchemaImpl<T: Access> {
+    /// Public part of the schema.
+    #[from_access(flatten)]
+    pub public: Schema<T>,
+    /// History for specific wallets.
+    pub product_history: Group<T, PublicKey, ProofListIndex<T::Base, Hash>>,
 }
 
-impl<T> AsMut<T> for Schema<T> {
-    fn as_mut(&mut self) -> &mut T {
-        &mut self.view
+/// Public part of the cryptocurrency schema.
+#[derive(Debug, FromAccess, RequireArtifact)]
+pub struct Schema<T: Access> {
+    /// Map of wallet keys to information about the corresponding account.
+    pub products: RawProofMapIndex<T::Base, PublicKey, Product>,
+}
+
+impl<T: Access> SchemaImpl<T> {
+    pub fn new(access: T) -> Self {
+        Self::from_root(access).unwrap()
+    }
+
+    pub fn product(&self, pk: PublicKey) -> Option<Product> {
+        self.public.products.get(&pk)
     }
 }
 
-impl<T> Schema<T>
+impl<T> SchemaImpl<T>
 where
-    T: IndexAccess,
+    T: Access,
+    T::Base: RawAccessMut,
 {
-    /// Creates a new schema from the database view.
-    pub fn new(view: T) -> Self {
-        Schema { view }
-    }
-    /// Returns `ProofMapIndex` with pipe types.
-     pub fn products(&self) -> ProofMapIndex<T, PublicKey, Product> {
-        ProofMapIndex::new(Products_TABLE, self.view.clone())
-    }
-
-    /// Returns pipe type for the given public key.
-    pub fn product(&self, pub_key: &PublicKey) -> Option<Product> {
-        self.products().get(pub_key)
-    }
-    /// Returns the state hash of service.
-    pub fn state_hash(&self) -> Vec<Hash> {
-        vec![self.queues().object_hash()]
-    }   
-    ///method for adding attributes to queu
-    pub fn create_product (
-        &mut self,
-        product_public_key: &PublicKey,       
-        manufacturer_public_key: PublicKey,
-        owner_public_key: PublicKey,    
-        product_name: str,
-        last_scan_coord: str,
-        product_info: str,
-        product_nfc: str,
-        production_date: str, 
-    )  {
-        let product = {
-            Product:: new(
-                product_public_key,       
-                manufacturer_public_key,
-                owner_public_key,      
-                product_name,
-                last_scan_coord,
-                product_info,
-                product_nfc,
-                production_date, 
-            )
-        };
-        self.products().put(key, profile);
+    /// Creates a new wallet and append first record to its history.
+    pub fn create_product(&mut self,
+        product_public_key: PublicKey, 
+        manufacturer_public_key : PublicKey,   
+        owner_public_key: PublicKey,     
+        product_name: &str,
+        last_scan_coord: &str,
+        product_info: &str,
+        product_nfc: &str,     
+        production_date: &str,
+        transaction: Hash) {
+        let mut history = self.product_history.get(&product_public_key);
+        history.push(transaction);
+        let history_hash = history.object_hash();
+        let product = Product::new(&product_public_key,
+             manufacturer_public_key,
+             owner_public_key, 
+             product_name,
+             last_scan_coord,
+             product_info,
+             product_nfc,
+             production_date,
+              &history_hash);
+        self.public.products.put(&product_public_key, product);
     }
 }

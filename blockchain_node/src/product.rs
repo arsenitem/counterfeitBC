@@ -1,10 +1,10 @@
-use exonum::{crypto::PublicKey};
+use exonum::{crypto::PublicKey, crypto::Hash};
 use exonum_proto::ProtobufConvert;
 
 use super::proto;
 
 /// Product information stored in the database.
-#[derive(Clone, Debug, ProtobufConvert)]
+#[derive(Clone, Debug, ProtobufConvert, BinaryValue)]
 #[protobuf_convert(source = "proto::Product", serde_pb_convert)]
 pub struct Product {
     /// Public key of the product
@@ -23,6 +23,8 @@ pub struct Product {
     pub product_nfc: String,
     /// Date of production
     pub production_date: String,
+
+    pub history_hash: Hash,
       
 }
 
@@ -32,11 +34,12 @@ impl Product {
         &product_public_key: &PublicKey,     
         manufacturer_public_key : PublicKey,   
         owner_public_key: PublicKey,     
-        product_name: &String,
-        last_scan_coord: &String,
-        product_info: &String,
-        product_nfc: &String,     
-        production_date: &String,
+        product_name: &str,
+        last_scan_coord: &str,
+        product_info: &str,
+        product_nfc: &str,     
+        production_date: &str,
+        &history_hash: &Hash,
                 
     ) -> Self {
         Self {
@@ -47,7 +50,8 @@ impl Product {
             last_scan_coord: last_scan_coord.to_owned(),
             product_info: product_info.to_owned(),
             product_nfc: product_nfc.to_owned(),    
-            production_date: production_date.to_owned(),                  
+            production_date: production_date.to_owned(),  
+            history_hash                
         }
     }
 }

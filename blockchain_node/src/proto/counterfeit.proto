@@ -29,4 +29,6 @@ message Product {
     string product_nfc = 7;
     /// Date of production
     string production_date = 8;
+
+    exonum.crypto.Hash history_hash = 9;
 }
