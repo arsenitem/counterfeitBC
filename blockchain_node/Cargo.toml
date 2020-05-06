@@ -21,7 +21,7 @@ serde_json = "1.0"
 
 [build-dependencies]
 exonum-build = "1.0.0"
-
+exonum-cli = "1.0.0"
 [features]
 default = ["with-serde"]
 with-serde = []
