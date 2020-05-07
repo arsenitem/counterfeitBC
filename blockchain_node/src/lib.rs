@@ -17,7 +17,6 @@ extern crate protobuf;
 #[macro_use]
 extern crate serde_derive; // Required for Protobuf.
 
-
 pub mod proto;
 
 pub mod manufacturer;
