@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useState} from 'react'
+import React, {FunctionComponent, useState, useEffect} from 'react'
 import { useHistory } from "react-router-dom";
 
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
@@ -26,7 +26,8 @@ import {getModalConfig, ITemplateModalConfig} from '../TemplateDialog/templateMo
 
 
 const mapState = (state: IState) => ({
-    accessToken: state.user.accessToken
+    accessToken: state.user.accessToken,
+    templates: state.templates.templates
 })
 
 const mapDispatch = {
@@ -45,35 +46,41 @@ type ITemplateCardProps = PropsFromRedux & {
 }
 
 const TemplateCard: FunctionComponent<ITemplateCardProps> = (props: ITemplateCardProps): JSX.Element => {
-    const [modalConfig, setModalConfig] = React.useState<ITemplateModalConfig | null>(null);
+    const [modalConfig, setModalConfig] = useState<ITemplateModalConfig | null>(null);
+    const [template, setTemplate] = useState<ITemplate>(props.template);
+
     const history = useHistory();
 
+    useEffect(() => {
+        const template = props.templates.filter(t => t.templateId === props.template.templateId)[0]
+        setTemplate(template)
+    }, [props.template])
     const onCardClick = () => {
-        history.push(`/templates/${props.template.templateId}`)
+        history.push(`/templates/${template.templateId}`)
     }
     const onCloseModal = () => setModalConfig(null)
     const setVisibility = () => {
-        props.startSetVisibilityTemplates(props.template, !props.template.isVisible, props.accessToken || '')
+        props.startSetVisibilityTemplates(template, !template.isVisible, props.accessToken || '')
     }
     const onEdit = () => {
-        history.push(`/templates/${props.template.templateId}/edit`, props.template)
+        history.push(`/templates/${template.templateId}/edit`, template)
     }
     const onUnarchive = () => {
-        props.startArchiveTemplates(props.template, false, props.accessToken || '')
+        props.startArchiveTemplates(template, false, props.accessToken || '')
     }
     const onArchive = () => {
         const archiveTemplate = () => {
-            props.startArchiveTemplates(props.template, true, props.accessToken || '')
+            props.startArchiveTemplates(template, true, props.accessToken || '')
             setModalConfig(null)
         }
         setModalConfig(getModalConfig('ARCHIVE', archiveTemplate, onCloseModal))
     }
     const onCopy = () => {
-        history.push(`/templates/new/edit`, props.template)
+        history.push(`/templates/new/edit`, template)
     }
     const onDelete = () => {
         const deleteTemplate = () => {
-            props.deleteTemplate(props.template, props.accessToken || '')
+            props.deleteTemplate(template, props.accessToken || '')
             setModalConfig(null)
         }
         setModalConfig(getModalConfig('DELETE', deleteTemplate, onCloseModal))
@@ -82,7 +89,7 @@ const TemplateCard: FunctionComponent<ITemplateCardProps> = (props: ITemplateCar
     const createCardActions = (): IAction[] => {
         let actions: IAction[] = []
 
-        if( props.template.isPublished) {
+        if( template.isPublished) {
             actions.push({
                 icon: <FileCopyOutlinedIcon/>,
                 action: () => onCopy(),
@@ -96,15 +103,15 @@ const TemplateCard: FunctionComponent<ITemplateCardProps> = (props: ITemplateCar
             })
         }
         
-        if (!props.template.isArchived) {
+        if (!template.isArchived) {
             actions.push({
-                icon: props.template.isVisible ? <VisibilityOutlinedIcon/> : <VisibilityOffOutlinedIcon/>,
+                icon: template.isVisible ? <VisibilityOutlinedIcon/> : <VisibilityOffOutlinedIcon/>,
                 action: () => setVisibility(),
-                tooltip: props.template.isVisible ? 'Шаблон доступен для записи' : 'Шаблон не доступен для записи',
-                isDisabled: !props.template.isPublished
+                tooltip: template.isVisible ? 'Шаблон доступен для записи' : 'Шаблон не доступен для записи',
+                isDisabled: !template.isPublished
             })
     
-            if( props.template.isPublished) {
+            if( template.isPublished) {
                 actions.push({
                     icon: <ArchiveOutlinedIcon/>,
                     action: () => onArchive(),
@@ -132,8 +139,8 @@ const TemplateCard: FunctionComponent<ITemplateCardProps> = (props: ITemplateCar
         <>
             <ItemCard actions={createCardActions()}
                 onCardClick={() => onCardClick()}
-                title={props.template.productName}
-                imageUrl={props.template.imageUrl}
+                title={template.productName}
+                imageUrl={template.imageUrl}
             />
             <TemplateDialog modalConfig={modalConfig}/>
         </>
